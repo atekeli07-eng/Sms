@@ -378,7 +378,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       <div class="card">
         <div class="section-label">Hesabına Giriş Yap</div>
         <div class="gold-divider"></div>
-        <div class="field"><label>Telefon veya E-posta</label><input type="text" id="login-id" placeholder="05XX XXX XX XX"></div>
+        <div class="field"><label>Telefon</label><input type="tel" id="login-id" placeholder="05XX XXX XX XX"></div>
         <div class="field"><label>Şifre</label><input type="password" id="login-pass" placeholder="••••••••"></div>
         <button class="cta-btn" style="margin-top:5px;" onclick="musteriGiris()">Giriş Yap</button>
         <div class="form-link" style="margin-top:9px;"><a href="#" onclick="switchMusteriTabByName('sifre')">Şifremi Unuttum</a></div>
@@ -395,7 +395,6 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
         <div class="gold-divider"></div>
         <div class="field"><label>Ad Soyad</label><input type="text" id="reg-name" placeholder="Adınızı giriniz"></div>
         <div class="field"><label>Telefon</label><input type="tel" id="reg-phone" placeholder="05XX XXX XX XX"></div>
-        <div class="field"><label>E-posta</label><input type="email" id="reg-email" placeholder="ornek@email.com"></div>
         <div class="field"><label>Şifre</label><input type="password" id="reg-pass" placeholder="En az 6 karakter"></div>
         <div class="field"><label>Şifre Tekrar</label><input type="password" id="reg-pass2" placeholder="Şifrenizi tekrar giriniz"></div>
         <button class="cta-btn" style="margin-top:5px;" onclick="musteriKayit()">Hesap Oluştur & Giriş Yap</button>
@@ -407,7 +406,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
         <div class="section-label">Şifreni Sıfırla</div>
         <div class="gold-divider"></div>
         <div style="font-size:11px;color:var(--grey);margin-bottom:14px;line-height:1.7;">Kayıtlı telefon veya e-posta adresinizi girin. Hesap bulunursa yeni şifre belirleyebilirsiniz.</div>
-        <div class="field"><label>Telefon veya E-posta</label><input type="text" id="reset-id" placeholder="05XX XXX XX XX"></div>
+        <div class="field"><label>Telefon</label><input type="tel" id="reset-id" placeholder="05XX XXX XX XX"></div>
         <button class="cta-btn" style="margin-top:5px;" onclick="sifreAdim1()">Devam Et →</button>
       </div>
       <div class="card" id="sifre-adim2" style="display:none">
@@ -603,7 +602,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
           <span class="section-count" id="customer-count-lbl">–</span>
         </div>
         <div class="gold-divider"></div>
-        <input class="search-input" type="text" placeholder="🔍  İsim / telefon / e-posta ara..." oninput="renderCustomers(this.value)">
+        <input class="search-input" type="text" placeholder="🔍  İsim veya telefon ara..." oninput="renderCustomers(this.value)">
         <div id="customer-list"></div>
       </div>
     </div>
@@ -737,6 +736,14 @@ function initRandevuPanel(){
   renderSvcOpts();
   var de=document.getElementById('r-date');if(!de.value)de.value=TODAY;
   renderTimeGrid();checkClosedBanner();
+  fillRandevuForm();
+}
+function fillRandevuForm(){
+  if(!S.loggedInUser)return;
+  var u=S.loggedInUser;
+  var rn=document.getElementById('r-name');var rp=document.getElementById('r-phone');
+  if(rn&&!rn.value)rn.value=u.name;
+  if(rp&&!rp.value)rp.value=u.phone;
 }
 function checkClosedBanner(){
   var date=document.getElementById('r-date')&&document.getElementById('r-date').value||TODAY;
@@ -783,14 +790,14 @@ function submitRandevu(){
   S.appointments.push({id:'a'+Date.now(),name:name,phone:phone,barberId:S.selBarberId,serviceId:svcId,date:date,time:S.selTime,status:'confirmed',userId:userId});
   var savedTime=S.selTime;
   S.selTime=null;
-  document.getElementById('r-name').value='';
-  document.getElementById('r-phone').value='';
+  if(!S.loggedInUser){document.getElementById('r-name').value='';document.getElementById('r-phone').value='';}
   renderTimeGrid();updateSvcDD();
   toast('Randevu Alındı! ✂️',name+' · '+service.name+' · '+formatDate(date)+' '+savedTime,'success',4500);
   // Admin bildirimi
   var barberName=(S.barbers.find(function(b){return b.id===S.selBarberId;})||{name:'?'}).name;
   addAdminNotif({icon:'📋',title:'Yeni Randevu: '+name,text:service.name+' · '+formatDate(date)+' '+savedTime+' · '+barberName});
   if(S.loggedInUser){renderMusteriPanel();checkReminders();}
+  lsSaveAll();
   renderAdminAll();
 }
 
@@ -800,28 +807,47 @@ function submitRandevu(){
 function musteriGiris(){
   var id=document.getElementById('login-id').value.trim();
   var pass=document.getElementById('login-pass').value;
-  var user=S.customers.find(function(c){return(c.phone===id||c.email===id)&&c.pass===pass;});
+  var user=S.customers.find(function(c){return c.phone===id&&c.pass===pass;});
   if(!user){toast('Hata','Bilgiler hatalı.','error');return;}
-  S.loggedInUser=user;renderMusteriPanel();checkReminders();toast('Hoş Geldiniz!',user.name,'success');
+  S.loggedInUser=user;
+  lsSave('musteri_uid',user.id);
+  renderMusteriPanel();checkReminders();
+  fillRandevuForm();
+  toast('Hoş Geldiniz!',user.name,'success');
 }
 function musteriKayit(){
   var name=document.getElementById('reg-name').value.trim();
   var phone=document.getElementById('reg-phone').value.trim();
-  var email=document.getElementById('reg-email').value.trim();
   var pass=document.getElementById('reg-pass').value;
   var pass2=document.getElementById('reg-pass2').value;
-  if(!name||!phone||!email||!pass){toast('Hata','Tüm alanları doldurunuz.','error');return;}
+  if(!name||!phone||!pass){toast('Hata','Tüm alanları doldurunuz.','error');return;}
   if(pass!==pass2){toast('Hata','Şifreler uyuşmuyor.','error');return;}
   if(pass.length<6){toast('Hata','Şifre en az 6 karakter.','error');return;}
-  if(S.customers.find(function(c){return c.phone===phone||c.email===email;})){toast('Hata','Bu bilgiler zaten kayıtlı.','error');return;}
-  var u={id:'u'+Date.now(),name:name,phone:phone,email:email,pass:pass,vip:false};
-  S.customers.push(u);S.loggedInUser=u;renderMusteriPanel();renderAdminAll();
+  if(S.customers.find(function(c){return c.phone===phone;})){toast('Hata','Bu telefon zaten kayıtlı.','error');return;}
+  var u={id:'u'+Date.now(),name:name,phone:phone,email:'',pass:pass,vip:false};
+  S.customers.push(u);S.loggedInUser=u;
+  lsSave('musteri_uid',u.id);
+  lsSaveAll();
+  fillRandevuForm();
+  renderMusteriPanel();renderAdminAll();
   toast('Hesap Oluşturuldu!',name+' olarak giriş yapıldı.','success');
 }
 function musteriCikis(){
+  showModal({
+    title:'Çıkış Yap',sub:'Hesabından çıkış yapmak istiyor musun?',
+    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Çıkış yaptıktan sonra tekrar giriş yapman gerekecek.</div>',
+    confirmTxt:'Çıkış Yap',confirmClass:'danger',cancelTxt:'Vazgeç',
+    onConfirm:'confirmMusteriCikis()'
+  });
+}
+function confirmMusteriCikis(){
   S.loggedInUser=null;
+  lsRemove('musteri_uid');
+  closeModalDirect();
   document.getElementById('musteri-loggedin-view').style.display='none';
   document.getElementById('musteri-login-view').style.display='block';
+  var rn=document.getElementById('r-name');var rp=document.getElementById('r-phone');
+  if(rn)rn.value='';if(rp)rp.value='';
   toast('Çıkış Yapıldı','Güle güle!','info');
 }
 function renderMusteriPanel(){
@@ -954,13 +980,24 @@ function adminGiris(){
   if(document.getElementById('admin-user').value==='admin'&&document.getElementById('admin-pass').value==='1234'){
     document.getElementById('admin-login-view').style.display='none';
     document.getElementById('admin-panel-view').style.display='block';
+    lsSave('admin_session','1');
     renderAdminAll();toast('Admin Girişi','Hoş geldiniz!','success');
   }else{toast('Hata','Kullanıcı adı veya şifre yanlış.','error');}
 }
 function adminCikis(){
+  showModal({
+    title:'Admin Çıkışı',sub:'Yönetici panelinden çıkmak istiyor musunuz?',
+    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Çıkış yaptıktan sonra tekrar giriş yapmanız gerekecek.</div>',
+    confirmTxt:'Çıkış Yap',confirmClass:'danger',cancelTxt:'Vazgeç',
+    onConfirm:'confirmAdminCikis()'
+  });
+}
+function confirmAdminCikis(){
+  lsRemove('admin_session');
+  closeModalDirect();
   document.getElementById('admin-panel-view').style.display='none';
   document.getElementById('admin-login-view').style.display='block';
-  toast('Çıkış','Görüşmek üzere.','info');
+  toast('Çıkış Yapıldı','Görüşmek üzere.','info');
 }
 function renderAdminAll(){
   renderAdminStats();renderAdminAppts();renderServices();
@@ -1173,7 +1210,7 @@ function renderCustomers(filter){
   filter=filter||'';
   var el=document.getElementById('customer-list');var lbl=document.getElementById('customer-count-lbl');if(!el)return;
   var list=S.customers.slice();
-  if(filter){var q=filter.toLowerCase();list=list.filter(function(c){return c.name.toLowerCase().includes(q)||c.phone.includes(q)||c.email.toLowerCase().includes(q);});}
+  if(filter){var q=filter.toLowerCase();list=list.filter(function(c){return c.name.toLowerCase().includes(q)||c.phone.includes(q);});}
   if(lbl)lbl.textContent=list.length+' Kayıt';
   if(list.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">👤</div><p>Müşteri bulunamadı.</p></div>';return;}
   el.innerHTML=list.map(function(c){
@@ -1224,13 +1261,13 @@ function sifreTemizle(){
 function sifreAdim1(){
   var id=document.getElementById('reset-id').value.trim();
   if(!id){toast('Hata','Telefon veya e-posta giriniz.','error');return;}
-  var user=S.customers.find(function(c){return c.phone===id||c.email===id;});
+  var user=S.customers.find(function(c){return c.phone===id;});
   if(!user){toast('Bulunamadı','Bu bilgilerle kayıtlı hesap yok.','error');return;}
   _sifreUser=user;
   var ini=user.name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
   document.getElementById('sifre-avatar').textContent=ini;
   document.getElementById('sifre-name').textContent=user.name;
-  document.getElementById('sifre-contact').textContent=user.phone+' · '+user.email;
+  document.getElementById('sifre-contact').textContent=user.phone;
   document.getElementById('sifre-adim1').style.display='none';
   document.getElementById('sifre-adim2').style.display='block';
   document.getElementById('reset-pass1').value='';
@@ -1261,9 +1298,37 @@ function switchAdminTab(name,btn){
   if(name==='ayarlar'){renderHoursEditor();renderHolidayChips();}
 }
 
+/* ── localStorage Helpers ── */
+function lsSave(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
+function lsLoad(key){try{var v=localStorage.getItem(key);return v!==null?JSON.parse(v):null;}catch(e){return null;}}
+function lsRemove(key){try{localStorage.removeItem(key);}catch(e){}}
+function lsSaveAll(){
+  try{localStorage.setItem('at_customers',JSON.stringify(S.customers));localStorage.setItem('at_appointments',JSON.stringify(S.appointments));}catch(e){}
+}
+function lsLoadAll(){
+  var c=lsLoad('at_customers');if(c&&c.length)S.customers=c;
+  var a=lsLoad('at_appointments');if(a&&a.length)S.appointments=a;
+}
+
 /* ── INIT ── */
+lsLoadAll();
 cleanPastAppts();
 initRandevuPanel();
+
+// Müşteri oturumu geri yükle
+(function(){
+  var uid=lsLoad('musteri_uid');
+  if(uid){var u=S.customers.find(function(c){return c.id===uid;});if(u){S.loggedInUser=u;fillRandevuForm();}}
+})();
+
+// Admin oturumu geri yükle
+(function(){
+  if(lsLoad('admin_session')==='1'){
+    document.getElementById('admin-login-view').style.display='none';
+    document.getElementById('admin-panel-view').style.display='block';
+    renderAdminAll();
+  }
+})();
 </script>
 
 </body>
