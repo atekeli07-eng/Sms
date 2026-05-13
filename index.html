@@ -5,79 +5,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Ahmet Tekeli – Erkek Kuaförü</title>
-
-<!-- PWA -->
-
 <meta name="theme-color" content="#0A0A0A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ahmet Tekeli">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="Ahmet Tekeli">
 <link rel="manifest" id="pwa-manifest">
 <link rel="apple-touch-icon" id="pwa-icon-apple">
-
 <script>
-// PWA Manifest + İkon — dinamik olarak oluştur
 (function(){
-  // Makasçı SVG ikonunu Canvas'a çizerek PNG üret
-  var canvas=document.createElement('canvas');
-  canvas.width=512;canvas.height=512;
+  var canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;
   var ctx=canvas.getContext('2d');
-  // Arka plan gradient
   var grd=ctx.createRadialGradient(180,180,10,256,256,256);
   grd.addColorStop(0,'#F0D070');grd.addColorStop(0.45,'#C9A84C');grd.addColorStop(1,'#7A5C20');
   ctx.beginPath();ctx.arc(256,256,256,0,Math.PI*2);ctx.fillStyle=grd;ctx.fill();
-  // İç daire
   ctx.beginPath();ctx.arc(256,256,180,0,Math.PI*2);ctx.fillStyle='#0A0A0A';ctx.fill();
   ctx.beginPath();ctx.arc(256,256,180,0,Math.PI*2);ctx.strokeStyle='#A07830';ctx.lineWidth=6;ctx.stroke();
-  // Makas — ölçeklenmiş
   ctx.strokeStyle='#C9A84C';ctx.lineWidth=14;ctx.lineCap='round';
   var sc=6.5,ox=60,oy=60;
-  // Üst daire
   ctx.beginPath();ctx.arc(ox+9*sc,oy+9*sc,4*sc,0,Math.PI*2);ctx.stroke();
-  // Alt daire
   ctx.beginPath();ctx.arc(ox+9*sc,oy+23*sc,4*sc,0,Math.PI*2);ctx.stroke();
-  // Üst kol
   ctx.beginPath();ctx.moveTo(ox+13*sc,oy+11*sc);ctx.lineTo(ox+28*sc,oy+4*sc);ctx.stroke();
-  // Alt kol
   ctx.beginPath();ctx.moveTo(ox+13*sc,oy+21*sc);ctx.lineTo(ox+28*sc,oy+28*sc);ctx.stroke();
-  // Merkez
   ctx.beginPath();ctx.moveTo(ox+13*sc,oy+11*sc);ctx.lineTo(ox+20*sc,oy+16*sc);ctx.stroke();
   ctx.beginPath();ctx.moveTo(ox+13*sc,oy+21*sc);ctx.lineTo(ox+20*sc,oy+16*sc);ctx.stroke();
-  // "AT" yazısı
-  ctx.fillStyle='#C9A84C';ctx.font='bold 72px Raleway,sans-serif';ctx.textAlign='center';
-  ctx.fillText('AT',256,430);
+  ctx.fillStyle='#C9A84C';ctx.font='bold 72px Raleway,sans-serif';ctx.textAlign='center';ctx.fillText('AT',256,430);
   var iconUrl=canvas.toDataURL('image/png');
-  // Apple touch icon
   var apl=document.getElementById('pwa-icon-apple');if(apl)apl.href=iconUrl;
-  // Manifest
-  var manifest={
-    name:'Ahmet Tekeli Erkek Kuaförü',
-    short_name:'Ahmet Tekeli',
-    description:'Online randevu sistemi',
-    start_url:window.location.href,
-    display:'standalone',
-    orientation:'portrait',
-    background_color:'#0A0A0A',
-    theme_color:'#0A0A0A',
-    icons:[
-      {src:iconUrl,sizes:'192x192',type:'image/png'},
-      {src:iconUrl,sizes:'512x512',type:'image/png',purpose:'any maskable'}
-    ]
-  };
+  var manifest={name:'Ahmet Tekeli Erkek Kuaförü',short_name:'Ahmet Tekeli',description:'Online randevu sistemi',start_url:window.location.href,display:'standalone',orientation:'portrait',background_color:'#0A0A0A',theme_color:'#0A0A0A',icons:[{src:iconUrl,sizes:'192x192',type:'image/png'},{src:iconUrl,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
   var blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
   var url=URL.createObjectURL(blob);
   var ml=document.getElementById('pwa-manifest');if(ml)ml.href=url;
 })();
 </script>
-
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#A07830;
   --black:#0A0A0A;--dark:#111111;--dark2:#1A1A1A;--dark3:#242424;--dark4:#2E2E2E;
-  --white:#F5F0E8;--white2:#EDE8DC;--grey:#888880;--red:#E05555;--green:#4CAF7A;--blue:#4A9EE0;--orange:#E09040;
+  --white:#F5F0E8;--white2:#EDE8DC;--grey:#888880;
+  --red:#E05555;--green:#4CAF7A;--blue:#4A9EE0;--orange:#E09040;--purple:#9B59B6;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;overflow:hidden;}
@@ -109,7 +75,10 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .field label{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:5px;}
 .field input,.field select{width:100%;background:var(--dark3);border:1px solid #333;border-radius:9px;padding:11px 13px;color:var(--white);font-family:'Raleway',sans-serif;font-size:13px;font-weight:500;outline:none;transition:border-color .2s;appearance:none;}
 .field input:focus,.field select:focus{border-color:var(--gold);}
+.field input.error{border-color:var(--red);}
 .field input::placeholder{color:#555;}
+.field-hint{font-size:9px;color:var(--red);margin-top:4px;display:none;}
+.field-hint.show{display:block;}
 .sel-wrap{position:relative;}
 .sel-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;font-size:13px;}
 .sel-wrap select{padding-right:34px;}
@@ -120,6 +89,8 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .barber-btn.selected .barber-avatar{border-color:var(--gold);background:rgba(201,168,76,.12);}
 .barber-info{flex:1;text-align:left;}
 .barber-role{font-size:9px;color:var(--grey);font-weight:500;letter-spacing:1px;text-transform:uppercase;}
+.barber-hours-badge{font-size:8px;color:var(--green);background:rgba(76,175,122,.1);border:1px solid rgba(76,175,122,.2);border-radius:4px;padding:1px 5px;margin-top:2px;display:inline-block;}
+.barber-hours-badge.closed{color:var(--red);background:rgba(224,85,85,.1);border-color:rgba(224,85,85,.2);}
 .b-check{width:17px;height:17px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:9px;color:var(--black);font-weight:800;}
 .barber-btn.selected .b-check{opacity:1;}
 .time-legend{display:flex;gap:10px;margin-bottom:10px;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--grey);flex-wrap:wrap;}
@@ -135,6 +106,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .time-btn.closed::after{content:'–';position:absolute;bottom:2px;left:0;right:0;font-size:8px;color:#444;font-weight:700;}
 .cta-btn{width:100%;background:linear-gradient(135deg,var(--gold-dark),var(--gold-light));border:none;border-radius:13px;padding:15px;font-family:'Playfair Display',serif;font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--black);cursor:pointer;box-shadow:0 5px 20px rgba(201,168,76,.28);transition:all .25s;}
 .cta-btn:active{transform:scale(.98);}
+.cta-btn:disabled{opacity:.4;cursor:not-allowed;}
 .bottomnav{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,var(--dark) 75%,transparent);padding:8px 13px 16px;display:flex;gap:5px;flex-shrink:0;}
 .bnav-btn{flex:1;background:var(--dark3);border:1px solid #333;border-radius:11px;padding:9px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;transition:all .2s;font-family:'Raleway',sans-serif;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);}
 .bnav-btn .icon{font-size:16px;}
@@ -159,6 +131,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .appt-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .appt-status{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border-radius:50px;}
 .status-confirmed{background:rgba(76,175,122,.12);color:var(--green);border:1px solid rgba(76,175,122,.25);}
+.status-pending{background:rgba(224,144,64,.12);color:var(--orange);border:1px solid rgba(224,144,64,.25);}
 .status-cancelled{background:rgba(224,85,85,.1);color:var(--red);border:1px solid rgba(224,85,85,.22);}
 .status-past{background:#222;color:var(--grey);border:1px solid #333;}
 .appt-service{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px;}
@@ -167,19 +140,32 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .appt-action-btn{flex:1;background:transparent;border:1px solid #333;border-radius:7px;padding:6px;font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);cursor:pointer;transition:all .2s;text-align:center;}
 .appt-action-btn.cancel{color:var(--red);border-color:rgba(224,85,85,.25);}
 .appt-action-btn.change{color:var(--gold);border-color:rgba(201,168,76,.25);}
+.appt-action-btn.approve{color:var(--green);border-color:rgba(76,175,122,.25);}
+/* STATİSTİK */
 .admin-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;}
 .stat-box{background:var(--dark3);border:1px solid #2a2a2a;border-radius:13px;padding:13px;text-align:center;}
 .stat-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--gold);line-height:1;}
 .stat-lbl{font-size:9px;color:var(--grey);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+/* GRAFİK */
+.chart-wrap{margin-bottom:8px;}
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.chart-bar-lbl{font-size:9px;color:var(--grey);width:28px;flex-shrink:0;text-align:right;}
+.chart-bar-outer{flex:1;height:18px;background:var(--dark4);border-radius:4px;overflow:hidden;position:relative;}
+.chart-bar-inner{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--gold-dark),var(--gold));transition:width .6s ease;}
+.chart-bar-val{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;font-weight:700;color:var(--black);}
+.chart-bar-val2{font-size:9px;color:var(--gold);min-width:36px;text-align:right;flex-shrink:0;}
+/* HİZMET */
 .service-row{display:flex;align-items:center;gap:9px;background:var(--dark3);border:1px solid #2a2a2a;border-radius:11px;padding:11px 13px;margin-bottom:7px;}
 .service-info{flex:1;}
 .service-name{font-size:13px;font-weight:700;color:var(--white2);}
 .service-detail{font-size:10px;color:var(--grey);margin-top:1px;}
+.service-cat-badge{font-size:8px;padding:2px 7px;border-radius:50px;font-weight:700;letter-spacing:1px;margin-top:3px;display:inline-block;}
 .service-actions{display:flex;gap:5px;}
 .del-btn{width:26px;height:26px;border-radius:7px;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.2);color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
 .del-btn:hover{background:rgba(224,85,85,.2);}
 .edit-btn{width:26px;height:26px;border-radius:7px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:all .2s;}
 .edit-btn:hover{background:rgba(201,168,76,.2);}
+/* MÜŞTERİ */
 .customer-row{display:flex;align-items:center;gap:9px;background:var(--dark3);border:1px solid #2a2a2a;border-radius:11px;padding:10px 13px;margin-bottom:7px;}
 .customer-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1e1a0e,#26200e);border:1.5px solid var(--gold-dark);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0;}
 .customer-info{flex:1;min-width:0;}
@@ -205,6 +191,14 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .empty-state{text-align:center;padding:30px 20px;color:var(--grey);}
 .empty-state .empty-icon{font-size:36px;margin-bottom:10px;opacity:.5;}
 .empty-state p{font-size:11px;letter-spacing:1px;}
+/* YORUM */
+.star-row{display:flex;gap:5px;margin:10px 0;}
+.star-btn{font-size:22px;cursor:pointer;opacity:.3;transition:opacity .15s;}
+.star-btn.active{opacity:1;}
+.review-card{background:var(--dark4);border:1px solid #2a2a2a;border-radius:10px;padding:10px 12px;margin-bottom:7px;}
+.review-stars{color:var(--gold);font-size:12px;margin-bottom:4px;}
+.review-text{font-size:11px;color:var(--white2);line-height:1.6;}
+.review-meta{font-size:9px;color:var(--grey);margin-top:4px;}
 /* TOAST */
 .toast-container{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:360px;max-width:95vw;}
 .toast{background:linear-gradient(135deg,#1a1a0a,#2a2510);border:1px solid var(--gold-dark);border-radius:13px;padding:13px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.6);animation:toastIn .4s cubic-bezier(.34,1.56,.64,1) both;pointer-events:auto;}
@@ -285,18 +279,40 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 .reminder-time{font-size:10px;color:var(--orange);font-weight:700;letter-spacing:1px;margin-bottom:4px;}
 .reminder-text{font-size:13px;font-weight:700;color:var(--white2);}
 .reminder-sub{font-size:10px;color:var(--grey);margin-top:2px;}
-/* KAPALIBANNER */
+/* KAPALI BANNER */
 .closed-banner{display:none;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.3);border-radius:11px;padding:11px 14px;margin-bottom:10px;font-size:11px;color:var(--red);font-weight:600;text-align:center;}
+/* KATEGORİ */
+.cat-filter{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
+.cat-btn{background:var(--dark3);border:1px solid #333;border-radius:8px;padding:5px 10px;font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--grey);cursor:pointer;transition:all .2s;}
+.cat-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+/* BERBER ÖZEL SAATLER */
+.barber-hours-section{background:var(--dark4);border:1px solid #2a2a2a;border-radius:11px;padding:12px;margin-top:10px;}
+/* HATIRLATICI SEÇENEKLERİ */
+.remind-opts{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+.remind-opt-btn{flex:1;min-width:60px;background:var(--dark3);border:1px solid #333;border-radius:8px;padding:7px 5px;text-align:center;font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;color:var(--grey);cursor:pointer;transition:all .2s;}
+.remind-opt-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
+/* EXPORT */
+.export-row{display:flex;gap:6px;margin-bottom:10px;}
+.export-btn{flex:1;background:var(--dark3);border:1px solid #333;border-radius:9px;padding:9px 6px;text-align:center;font-family:'Raleway',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);cursor:pointer;transition:all .2s;}
+.export-btn:hover{border-color:var(--gold);}
+/* ÇAKIŞMA UYARI */
+.conflict-warn{background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.25);border-radius:9px;padding:9px 12px;font-size:11px;color:var(--red);margin-bottom:8px;display:none;}
+/* PUANLAMA */
+.avg-rating{display:flex;align-items:center;gap:8px;background:var(--dark3);border:1px solid #2a2a2a;border-radius:10px;padding:10px 13px;margin-bottom:10px;}
+.avg-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--gold);}
+.avg-stars{color:var(--gold);font-size:16px;}
+.avg-count{font-size:10px;color:var(--grey);margin-top:2px;}
 </style>
 </head>
 <body>
 <div class="toast-container" id="toastContainer"></div>
 <div class="shell">
-
   <div class="statusbar">
     <div class="statusbar-time" id="clockDisplay">--:--</div>
+    <div class="statusbar-icons">
+      <span id="reminder-bell-indicator" style="display:none;font-size:12px;">🔔</span>
+    </div>
   </div>
-
   <div class="header">
     <div class="logo-badge">
       <svg viewBox="0 0 110 110" style="position:absolute;top:0;left:0;width:100%;height:100%;">
@@ -330,17 +346,31 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 <!-- ═══ RANDEVU ═══ -->
 <div class="panel active" id="panel-randevu">
   <div class="closed-banner" id="shop-closed-banner">🔒 Seçilen gün <strong>kapalı</strong> — başka bir tarih seçiniz.</div>
+  <div class="conflict-warn" id="conflict-warn">⚠️ Bu saatte <strong id="conflict-text"></strong> başka bir randevu var!</div>
   <div class="card">
     <div class="section-label">Kişisel Bilgiler</div>
     <div class="gold-divider"></div>
-    <div class="field"><label>Ad Soyad</label><input type="text" id="r-name" placeholder="Adınızı giriniz"></div>
-    <div class="field"><label>Telefon</label><input type="tel" id="r-phone" placeholder="05XX XXX XX XX"></div>
+    <div class="field">
+      <label>Ad Soyad</label>
+      <input type="text" id="r-name" placeholder="Adınızı giriniz">
+      <div class="field-hint" id="hint-rname">Lütfen adınızı giriniz.</div>
+    </div>
+    <div class="field">
+      <label>Telefon</label>
+      <input type="tel" id="r-phone" placeholder="05XX XXX XX XX" maxlength="14" oninput="formatPhone(this)">
+      <div class="field-hint" id="hint-rphone">Geçerli bir telefon numarası giriniz (05XX ile başlamalı).</div>
+    </div>
   </div>
   <div class="card">
     <div class="section-label">Berber & Hizmet Seçimi</div>
     <div class="gold-divider"></div>
     <div class="field"><label>Berber Seçimi</label><div class="barbers" id="barber-list-randevu"></div></div>
-    <div class="field"><label>İşlem Seçimi</label><div class="sel-wrap"><select id="r-service"></select></div></div>
+    <div class="field">
+      <label>Kategori</label>
+      <div class="cat-filter" id="svc-cat-filter"></div>
+    </div>
+    <div class="field"><label>İşlem Seçimi</label><div class="sel-wrap"><select id="r-service" onchange="onSvcChange()"></select></div></div>
+    <div id="svc-info-bar" style="background:var(--dark4);border:1px solid #2a2a2a;border-radius:9px;padding:9px 12px;margin-top:8px;font-size:11px;color:var(--grey);display:none;"></div>
   </div>
   <div class="card">
     <div class="section-label">Tarih Seçimi</div>
@@ -358,8 +388,19 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
     </div>
     <div class="time-grid" id="time-grid"></div>
   </div>
+  <div class="card">
+    <div class="section-label">🔔 Hatırlatıcı</div>
+    <div class="gold-divider"></div>
+    <div style="font-size:10px;color:var(--grey);margin-bottom:6px;">Randevu öncesi ne zaman hatırlatılsın?</div>
+    <div class="remind-opts">
+      <div class="remind-opt-btn active" id="remopt-none" onclick="selRemOpt('none',this)">Hayır</div>
+      <div class="remind-opt-btn" id="remopt-2h" onclick="selRemOpt('2h',this)">2 Saat</div>
+      <div class="remind-opt-btn" id="remopt-1d" onclick="selRemOpt('1d',this)">1 Gün</div>
+      <div class="remind-opt-btn" id="remopt-2d" onclick="selRemOpt('2d',this)">2 Gün</div>
+    </div>
+  </div>
   <div class="card" style="padding:14px;">
-    <button class="cta-btn" onclick="submitRandevu()">Randevu Al</button>
+    <button class="cta-btn" id="randevu-submit-btn" onclick="submitRandevu()">Randevu Al</button>
     <div style="text-align:center;font-size:10px;color:var(--grey);margin-top:9px;line-height:1.7;">
       Randevunuzu oluşturduktan sonra <span style="color:var(--gold)">iptal</span> veya <span style="color:var(--gold)">değiştirebilirsiniz</span>
     </div>
@@ -378,7 +419,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       <div class="card">
         <div class="section-label">Hesabına Giriş Yap</div>
         <div class="gold-divider"></div>
-        <div class="field"><label>Telefon</label><input type="tel" id="login-id" placeholder="05XX XXX XX XX"></div>
+        <div class="field"><label>Telefon</label><input type="tel" id="login-id" placeholder="05XX XXX XX XX" maxlength="14" oninput="formatPhone(this)"></div>
         <div class="field"><label>Şifre</label><input type="password" id="login-pass" placeholder="••••••••"></div>
         <button class="cta-btn" style="margin-top:5px;" onclick="musteriGiris()">Giriş Yap</button>
         <div class="form-link" style="margin-top:9px;"><a href="#" onclick="switchMusteriTabByName('sifre')">Şifremi Unuttum</a></div>
@@ -394,7 +435,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
         <div class="section-label">Yeni Hesap Oluştur</div>
         <div class="gold-divider"></div>
         <div class="field"><label>Ad Soyad</label><input type="text" id="reg-name" placeholder="Adınızı giriniz"></div>
-        <div class="field"><label>Telefon</label><input type="tel" id="reg-phone" placeholder="05XX XXX XX XX"></div>
+        <div class="field"><label>Telefon</label><input type="tel" id="reg-phone" placeholder="05XX XXX XX XX" maxlength="14" oninput="formatPhone(this)"></div>
         <div class="field"><label>Şifre</label><input type="password" id="reg-pass" placeholder="En az 6 karakter"></div>
         <div class="field"><label>Şifre Tekrar</label><input type="password" id="reg-pass2" placeholder="Şifrenizi tekrar giriniz"></div>
         <button class="cta-btn" style="margin-top:5px;" onclick="musteriKayit()">Hesap Oluştur & Giriş Yap</button>
@@ -405,8 +446,8 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       <div class="card" id="sifre-adim1">
         <div class="section-label">Şifreni Sıfırla</div>
         <div class="gold-divider"></div>
-        <div style="font-size:11px;color:var(--grey);margin-bottom:14px;line-height:1.7;">Kayıtlı telefon veya e-posta adresinizi girin. Hesap bulunursa yeni şifre belirleyebilirsiniz.</div>
-        <div class="field"><label>Telefon</label><input type="tel" id="reset-id" placeholder="05XX XXX XX XX"></div>
+        <div style="font-size:11px;color:var(--grey);margin-bottom:14px;line-height:1.7;">Kayıtlı telefon numaranızı girin.</div>
+        <div class="field"><label>Telefon</label><input type="tel" id="reset-id" placeholder="05XX XXX XX XX" maxlength="14" oninput="formatPhone(this)"></div>
         <button class="cta-btn" style="margin-top:5px;" onclick="sifreAdim1()">Devam Et →</button>
       </div>
       <div class="card" id="sifre-adim2" style="display:none">
@@ -446,9 +487,17 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       <div id="m-active-appts"></div>
     </div>
     <div class="card" style="padding:13px;">
-      <div class="section-label">Geçmiş Randevularım</div>
+      <div class="section-header">
+        <div class="section-label" style="margin-bottom:0;">Geçmiş Randevularım</div>
+        <button id="past-delete-all-btn" onclick="deletePastAll()" style="display:none;background:transparent;border:1px solid rgba(224,85,85,.25);border-radius:7px;padding:4px 9px;font-size:9px;color:var(--red);cursor:pointer;font-family:'Raleway',sans-serif;letter-spacing:1px;">Tümünü Sil</button>
+      </div>
       <div class="gold-divider"></div>
       <div id="m-past-appts"></div>
+    </div>
+    <div class="card" style="padding:13px;">
+      <div class="section-label">Hesap Güvenliği</div>
+      <div class="gold-divider"></div>
+      <button class="secondary-btn" onclick="musteriSifreDegistir()">🔒 Şifremi Değiştir</button>
     </div>
   </div>
 </div>
@@ -478,18 +527,17 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       </div>
       <div style="display:flex;gap:6px;align-items:center;">
         <button id="admin-bell-btn" onclick="toggleAdminNotifs()" style="position:relative;background:var(--dark3);border:1px solid #333;border-radius:8px;width:34px;height:34px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;" title="Bildirimler">
-          🔔<span id="admin-notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:8px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;" id="admin-notif-badge2">0</span>
+          🔔<span id="admin-notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:8px;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;">0</span>
         </button>
         <button class="logout-btn" onclick="adminCikis()">Çıkış</button>
       </div>
     </div>
-    <!-- Bildirim paneli -->
     <div id="admin-notif-panel" style="display:none;background:var(--dark3);border:1px solid #2a2a2a;border-radius:13px;padding:12px;margin-bottom:11px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div class="section-label" style="margin-bottom:0;">🔔 Yeni Bildirimler</div>
         <button onclick="clearAdminNotifs()" style="background:transparent;border:1px solid #333;border-radius:6px;padding:3px 8px;font-size:9px;color:var(--grey);cursor:pointer;font-family:'Raleway',sans-serif;letter-spacing:1px;">Tümünü Temizle</button>
       </div>
-      <div id="admin-notif-list"><div style="font-size:11px;color:var(--grey);text-align:center;padding:8px 0;">Bildirim yok.</div></div>
+      <div id="admin-notif-list"></div>
     </div>
     <div class="admin-stat-row" id="admin-stats"></div>
     <div class="tabs">
@@ -497,6 +545,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       <button class="tab-btn" onclick="switchAdminTab('takvim',this)">Takvim</button>
       <button class="tab-btn" onclick="switchAdminTab('hizmetler',this)">Hizmetler</button>
       <button class="tab-btn" onclick="switchAdminTab('berberler',this)">Berberler</button>
+      <button class="tab-btn" onclick="switchAdminTab('raporlar',this)">Rapor</button>
       <button class="tab-btn" onclick="switchAdminTab('ayarlar',this)">Ayarlar</button>
       <button class="tab-btn" onclick="switchAdminTab('musteriler',this)">Müşteriler</button>
     </div>
@@ -504,10 +553,14 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
     <div id="atab-randevular">
       <div class="card" style="padding:13px;">
         <div class="section-header">
-          <div class="section-label" style="margin-bottom:0;">Aktif Randevular</div>
+          <div class="section-label" style="margin-bottom:0;">Bekleyen & Aktif Randevular</div>
           <span class="section-count" id="appt-count-lbl">–</span>
         </div>
         <div class="gold-divider"></div>
+        <div class="export-row">
+          <button class="export-btn" onclick="exportCSV()">📥 CSV</button>
+          <button class="export-btn" onclick="exportTXT()">📄 TXT</button>
+        </div>
         <input class="search-input" type="text" placeholder="🔍  İsim / tarih / saat ara..." oninput="renderAdminAppts(this.value)">
         <div id="admin-appt-list"></div>
       </div>
@@ -540,10 +593,23 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
           <span class="section-count" id="service-count-lbl">–</span>
         </div>
         <div class="gold-divider"></div>
+        <div class="cat-filter" id="admin-cat-filter"></div>
         <div id="service-list"></div>
         <div style="margin-top:12px;background:var(--dark4);border:1px solid #333;border-radius:11px;padding:13px;">
           <div class="section-label" style="margin-bottom:10px;">Yeni Hizmet Ekle</div>
           <div class="field" style="margin-bottom:8px;"><label>Hizmet Adı</label><input type="text" id="new-svc-name" placeholder="Örn: Çocuk Saç Kesimi"></div>
+          <div class="field" style="margin-bottom:8px;">
+            <label>Kategori</label>
+            <div class="sel-wrap">
+              <select id="new-svc-cat" style="width:100%;background:var(--dark3);border:1px solid #333;border-radius:9px;padding:10px 12px;color:var(--white);font-family:'Raleway',sans-serif;font-size:13px;outline:none;appearance:none;">
+                <option value="Saç">Saç</option>
+                <option value="Sakal">Sakal</option>
+                <option value="Cilt">Cilt</option>
+                <option value="Kombo">Kombo</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+          </div>
           <div style="display:flex;gap:8px;">
             <div class="field" style="flex:1;margin-bottom:8px;"><label>Fiyat (₺)</label><input type="number" id="new-svc-price" placeholder="500"></div>
             <div class="field" style="flex:1;margin-bottom:8px;"><label>Süre (dk)</label><input type="number" id="new-svc-dur" placeholder="30"></div>
@@ -570,11 +636,53 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       </div>
     </div>
 
+    <!-- RAPOR SEKMESİ -->
+    <div id="atab-raporlar" style="display:none">
+      <div class="card" style="padding:13px;">
+        <div class="section-label">📊 Gelir Özeti</div>
+        <div class="gold-divider"></div>
+        <div class="admin-stat-row" id="report-stats"></div>
+      </div>
+      <div class="card" style="padding:13px;">
+        <div class="section-label">📅 Günlük Randevu (Bu Hafta)</div>
+        <div class="gold-divider"></div>
+        <div class="chart-wrap" id="chart-daily"></div>
+      </div>
+      <div class="card" style="padding:13px;">
+        <div class="section-label">✂️ Hizmet Dağılımı</div>
+        <div class="gold-divider"></div>
+        <div class="chart-wrap" id="chart-services"></div>
+      </div>
+      <div class="card" style="padding:13px;">
+        <div class="section-label">👤 Berber Performansı</div>
+        <div class="gold-divider"></div>
+        <div class="chart-wrap" id="chart-barbers"></div>
+      </div>
+      <div class="card" style="padding:13px;">
+        <div class="section-label">🕐 Yoğun Saatler</div>
+        <div class="gold-divider"></div>
+        <div class="chart-wrap" id="chart-hours"></div>
+      </div>
+      <div class="card" style="padding:13px;">
+        <div class="section-label">⭐ Müşteri Yorumları</div>
+        <div class="gold-divider"></div>
+        <div id="report-reviews"></div>
+      </div>
+    </div>
+
     <div id="atab-ayarlar" style="display:none">
+      <div class="card" style="padding:13px;">
+        <div class="section-label">🔒 Admin Şifre Değiştir</div>
+        <div class="gold-divider"></div>
+        <div class="field" style="margin-bottom:8px;"><label>Mevcut Şifre</label><input type="password" id="admin-cur-pass" placeholder="Mevcut şifreniz"></div>
+        <div class="field" style="margin-bottom:8px;"><label>Yeni Şifre</label><input type="password" id="admin-new-pass1" placeholder="En az 6 karakter"></div>
+        <div class="field"><label>Yeni Şifre Tekrar</label><input type="password" id="admin-new-pass2" placeholder="Tekrar giriniz"></div>
+        <button class="cta-btn" style="margin-top:10px;padding:11px;" onclick="adminSifreDegistir()">Şifreyi Güncelle</button>
+      </div>
       <div class="card" style="padding:13px;">
         <div class="section-label">📱 WhatsApp Bildirim Numarası</div>
         <div class="gold-divider"></div>
-        <div style="font-size:11px;color:var(--grey);margin-bottom:10px;line-height:1.7;">İptal ve değişiklik bildirimlerinin gönderileceği WhatsApp numarasını girin. Ülke kodu dahil, + ve boşluk olmadan yazın.</div>
+        <div style="font-size:11px;color:var(--grey);margin-bottom:10px;line-height:1.7;">İptal ve değişiklik bildirimlerinin gönderileceği WhatsApp numarasını girin. Ülke kodu dahil yazın.</div>
         <div style="display:flex;gap:7px;align-items:center;">
           <input type="tel" id="admin-wa-phone" placeholder="905xxxxxxxxx" style="flex:1;background:var(--dark3);border:1px solid #333;border-radius:9px;padding:10px 12px;color:var(--white);font-family:'Raleway',sans-serif;font-size:13px;outline:none;" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
           <button onclick="saveAdminPhone()" style="background:var(--gold);border:none;border-radius:9px;padding:10px 14px;color:var(--black);font-weight:800;font-size:12px;cursor:pointer;flex-shrink:0;font-family:'Raleway',sans-serif;letter-spacing:1px;">KAYDET</button>
@@ -582,7 +690,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
         <div id="wa-phone-display" style="font-size:10px;color:var(--green);margin-top:7px;display:none;"></div>
       </div>
       <div class="card" style="padding:13px;">
-        <div class="section-label">Çalışma Saatleri</div>
+        <div class="section-label">Çalışma Saatleri (Genel)</div>
         <div class="gold-divider"></div>
         <div id="hours-editor"></div>
         <button class="cta-btn" style="margin-top:12px;padding:11px;" onclick="saveHours()">Saatleri Kaydet</button>
@@ -600,7 +708,7 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
       <div class="card" style="padding:13px;">
         <div class="section-label">🔔 Hatırlatıcı Sistemi</div>
         <div class="gold-divider"></div>
-        <div style="font-size:11px;color:var(--grey);margin-bottom:12px;line-height:1.7;">Yarın randevusu olan müşterilere otomatik hatırlatıcı gösterilir. "Hesabım" sekmesinde görünür.</div>
+        <div style="font-size:11px;color:var(--grey);margin-bottom:12px;line-height:1.7;">Müşteriler randevu sırasında hatırlatıcı tercihi yapabilir. Demo için aşağıyı kullanın.</div>
         <button class="cta-btn" style="padding:11px;" onclick="testReminder()">🔔 Demo Hatırlatıcı Gönder</button>
       </div>
     </div>
@@ -632,37 +740,53 @@ body{background:#000;color:var(--white);font-family:'Raleway',sans-serif;display
 
 <script>
 const MONTHS_TR=['','Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
-const DAYS_TR  =['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+const DAYS_TR=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
 const ALL_SLOTS=['09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30',
                  '13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30',
                  '17:00','17:30','18:00','18:30','19:00'];
 const TODAY=new Date().toISOString().split('T')[0];
 
-let S={
+// ── Şifre (değiştirilebilir) ──
+var ADMIN_PASS='1234';
+
+// Kategori renk haritası
+var CAT_COLORS={
+  'Saç':  {bg:'rgba(74,158,224,.12)',border:'rgba(74,158,224,.3)',text:'#4A9EE0'},
+  'Sakal':{bg:'rgba(201,168,76,.12)',border:'rgba(201,168,76,.3)',text:'#C9A84C'},
+  'Cilt': {bg:'rgba(155,89,182,.12)',border:'rgba(155,89,182,.3)',text:'#9B59B6'},
+  'Kombo':{bg:'rgba(76,175,122,.12)',border:'rgba(76,175,122,.3)',text:'#4CAF7A'},
+  'Diğer':{bg:'rgba(136,136,128,.12)',border:'rgba(136,136,128,.3)',text:'#888880'}
+};
+
+var S={
   barbers:[
-    {id:1,name:'Ahmet TEKELİ',role:'Baş Berber',initials:'AT'},
-    {id:2,name:'Efe KARA',    role:'Berber',    initials:'EK'},
-    {id:3,name:'Emre ŞORBA', role:'Berber',    initials:'EŞ'}
+    {id:1,name:'Ahmet TEKELİ',role:'Baş Berber',initials:'AT',
+     customHours:{enabled:false,hours:{0:{open:false,start:'09:00',end:'19:00'},1:{open:true,start:'09:00',end:'19:00'},2:{open:true,start:'09:00',end:'19:00'},3:{open:true,start:'09:00',end:'19:00'},4:{open:true,start:'09:00',end:'19:00'},5:{open:true,start:'09:00',end:'19:00'},6:{open:true,start:'10:00',end:'17:00'}}}},
+    {id:2,name:'Efe KARA',    role:'Berber',initials:'EK',
+     customHours:{enabled:false,hours:{0:{open:false,start:'09:00',end:'19:00'},1:{open:true,start:'09:00',end:'19:00'},2:{open:true,start:'09:00',end:'19:00'},3:{open:true,start:'09:00',end:'19:00'},4:{open:true,start:'09:00',end:'19:00'},5:{open:true,start:'09:00',end:'19:00'},6:{open:true,start:'10:00',end:'17:00'}}}},
+    {id:3,name:'Emre ŞORBA', role:'Berber',initials:'EŞ',
+     customHours:{enabled:false,hours:{0:{open:false,start:'09:00',end:'19:00'},1:{open:true,start:'09:00',end:'19:00'},2:{open:true,start:'09:00',end:'19:00'},3:{open:true,start:'09:00',end:'19:00'},4:{open:true,start:'09:00',end:'19:00'},5:{open:true,start:'09:00',end:'19:00'},6:{open:true,start:'10:00',end:'17:00'}}}}
   ],
   services:[
-    {id:1,name:'Saç + Sakal',       price:700,dur:60},
-    {id:2,name:'Saç Kesimi',        price:450,dur:30},
-    {id:3,name:'Sakal Düzeltme',    price:300,dur:20},
-    {id:4,name:'Saç + Sakal + Cilt',price:950,dur:90}
+    {id:1,name:'Saç + Sakal',        price:700, dur:60, cat:'Kombo'},
+    {id:2,name:'Saç Kesimi',         price:450, dur:30, cat:'Saç'},
+    {id:3,name:'Sakal Düzeltme',     price:300, dur:20, cat:'Sakal'},
+    {id:4,name:'Saç + Sakal + Cilt', price:950, dur:90, cat:'Kombo'}
   ],
   appointments:[
-    {id:'a1',name:'Ali Yılmaz',   phone:'0532 111 22 33',barberId:1,serviceId:1,date:'2026-05-14',time:'14:00',status:'confirmed',userId:'u1'},
-    {id:'a2',name:'Ali Yılmaz',   phone:'0532 111 22 33',barberId:2,serviceId:2,date:'2026-05-20',time:'11:30',status:'confirmed',userId:'u1'},
-    {id:'a3',name:'Mehmet Kaya',  phone:'0533 444 55 66',barberId:2,serviceId:2,date:'2026-05-14',time:'10:30',status:'confirmed',userId:'u2'},
-    {id:'a4',name:'Can Şahin',    phone:'0541 777 88 99',barberId:1,serviceId:4,date:'2026-05-14',time:'14:30',status:'confirmed',userId:'u3'},
-    {id:'a5',name:'Ali Yılmaz',   phone:'0532 111 22 33',barberId:1,serviceId:4,date:'2026-05-02',time:'16:00',status:'past',     userId:'u1'},
-    {id:'a6',name:'Burak Öztürk', phone:'0505 321 54 87',barberId:3,serviceId:3,date:'2026-05-14',time:'09:30',status:'confirmed',userId:'u4'}
+    {id:'a1',name:'Ali Yılmaz',   phone:'0532 111 22 33',barberId:1,serviceId:1,date:'2026-05-14',time:'14:00',status:'confirmed',userId:'u1',remOpt:'1d'},
+    {id:'a2',name:'Ali Yılmaz',   phone:'0532 111 22 33',barberId:2,serviceId:2,date:'2026-05-20',time:'11:30',status:'confirmed',userId:'u1',remOpt:'none'},
+    {id:'a3',name:'Mehmet Kaya',  phone:'0533 444 55 66',barberId:2,serviceId:2,date:'2026-05-14',time:'10:30',status:'confirmed',userId:'u2',remOpt:'2h'},
+    {id:'a4',name:'Can Şahin',    phone:'0541 777 88 99',barberId:1,serviceId:4,date:'2026-05-14',time:'14:30',status:'pending',  userId:'u3',remOpt:'none'},
+    {id:'a5',name:'Ali Yılmaz',   phone:'0532 111 22 33',barberId:1,serviceId:4,date:'2026-05-02',time:'16:00',status:'past',     userId:'u1',remOpt:'none',rating:5,review:'Ahmet Bey her zamanki gibi harika iş çıkardı!'},
+    {id:'a6',name:'Burak Öztürk', phone:'0505 321 54 87',barberId:3,serviceId:3,date:'2026-05-14',time:'09:30',status:'confirmed',userId:'u4',remOpt:'1d'},
+    {id:'a7',name:'Mehmet Kaya',  phone:'0533 444 55 66',barberId:1,serviceId:2,date:'2026-04-10',time:'11:00',status:'past',     userId:'u2',remOpt:'none',rating:4,review:'Çok temiz bir kesim, teşekkürler.'}
   ],
   customers:[
-    {id:'u1',name:'Ali Yılmaz',  phone:'0532 111 22 33',email:'ali@mail.com',   pass:'1234',vip:true},
-    {id:'u2',name:'Mehmet Kaya', phone:'0533 444 55 66',email:'mehmet@mail.com',pass:'1234',vip:false},
-    {id:'u3',name:'Can Şahin',   phone:'0541 777 88 99',email:'can@mail.com',   pass:'1234',vip:false},
-    {id:'u4',name:'Burak Öztürk',phone:'0505 321 54 87',email:'burak@mail.com', pass:'1234',vip:false}
+    {id:'u1',name:'Ali Yılmaz',  phone:'0532 111 22 33',pass:'1234',vip:true},
+    {id:'u2',name:'Mehmet Kaya', phone:'0533 444 55 66',pass:'1234',vip:false},
+    {id:'u3',name:'Can Şahin',   phone:'0541 777 88 99',pass:'1234',vip:false},
+    {id:'u4',name:'Burak Öztürk',phone:'0505 321 54 87',pass:'1234',vip:false}
   ],
   workHours:{
     0:{open:false,start:'09:00',end:'19:00'},
@@ -674,10 +798,13 @@ let S={
     6:{open:true, start:'10:00',end:'17:00'}
   },
   holidays:[],
-  adminPhone:'905xxxxxxxxx', // WhatsApp numarası (ülke kodu ile, + ve boşluk yok)
+  adminPhone:'905xxxxxxxxx',
   loggedInUser:null,
   selBarberId:1,
   selTime:null,
+  selRemOpt:'none',
+  selCatFilter:'Tümü',
+  adminCatFilter:'Tümü',
   calBarberId:1,
   calYear:new Date().getFullYear(),
   calMonth:new Date().getMonth()+1,
@@ -685,26 +812,43 @@ let S={
 };
 
 /* ── Clock ── */
-function tick(){const n=new Date();const el=document.getElementById('clockDisplay');if(el)el.textContent=pad(n.getHours())+':'+pad(n.getMinutes());}
+function tick(){var n=new Date();var el=document.getElementById('clockDisplay');if(el)el.textContent=pad(n.getHours())+':'+pad(n.getMinutes());}
 function pad(x){return String(x).padStart(2,'0');}
 tick();setInterval(tick,10000);
+
+/* ── Telefon Formatı ── */
+function formatPhone(el){
+  var v=el.value.replace(/\D/g,'');
+  if(v.length>11)v=v.substring(0,11);
+  var fmt='';
+  if(v.length<=4)fmt=v;
+  else if(v.length<=7)fmt=v.slice(0,4)+' '+v.slice(4);
+  else if(v.length<=9)fmt=v.slice(0,4)+' '+v.slice(4,7)+' '+v.slice(7);
+  else fmt=v.slice(0,4)+' '+v.slice(4,7)+' '+v.slice(7,9)+' '+v.slice(9);
+  el.value=fmt;
+}
+function validatePhone(phone){
+  var digits=phone.replace(/\D/g,'');
+  return digits.length===11&&digits.startsWith('05');
+}
+function validateName(name){return name.trim().length>=2;}
 
 /* ── Toast ── */
 function toast(title,msg,type,dur){
   type=type||'success';dur=dur||3500;
-  const tc=document.getElementById('toastContainer');
-  const t=document.createElement('div');t.className='toast '+type;
-  const icons={success:'✅',error:'❌',info:'ℹ️',warn:'⚠️',bell:'🔔'};
-  t.innerHTML=`<div class="toast-icon">${icons[type]||'✅'}</div><div class="toast-body"><div class="toast-title">${title}</div>${msg?'<div class="toast-msg">'+msg+'</div>':''}</div>`;
+  var tc=document.getElementById('toastContainer');
+  var t=document.createElement('div');t.className='toast '+type;
+  var icons={success:'✅',error:'❌',info:'ℹ️',warn:'⚠️',bell:'🔔'};
+  t.innerHTML='<div class="toast-icon">'+(icons[type]||'✅')+'</div><div class="toast-body"><div class="toast-title">'+title+'</div>'+(msg?'<div class="toast-msg">'+msg+'</div>':'')+'</div>';
   tc.appendChild(t);
   setTimeout(function(){t.classList.add('hide');setTimeout(function(){t.remove();},350);},dur);
 }
 
 /* ── Modal ── */
 function showModal(o){
-  const mc=document.getElementById('modal-container');
-  const cancelHtml=o.cancelTxt!==''?`<button class="modal-btn cancel" onclick="closeModalDirect()">${o.cancelTxt||'İptal'}</button>`:'';
-  mc.innerHTML=`<div class="modal-overlay" id="activeModal" onclick="closeModal(event)"><div class="modal"><button class="modal-close" onclick="closeModalDirect()">✕</button><div class="modal-title">${o.title||''}</div><div class="modal-sub">${o.sub||''}</div>${o.body||''}<div class="modal-actions">${cancelHtml}<button class="modal-btn ${o.confirmClass||'confirm'}" onclick="${o.onConfirm||'closeModalDirect()'}">${o.confirmTxt||'Onayla'}</button></div></div></div>`;
+  var mc=document.getElementById('modal-container');
+  var cancelHtml=o.cancelTxt!==''?'<button class="modal-btn cancel" onclick="closeModalDirect()">'+(o.cancelTxt||'İptal')+'</button>':'';
+  mc.innerHTML='<div class="modal-overlay" id="activeModal" onclick="closeModal(event)"><div class="modal"><button class="modal-close" onclick="closeModalDirect()">✕</button><div class="modal-title">'+(o.title||'')+'</div><div class="modal-sub">'+(o.sub||'')+'</div>'+(o.body||'')+'<div class="modal-actions">'+cancelHtml+'<button class="modal-btn '+(o.confirmClass||'confirm')+'" onclick="'+(o.onConfirm||'closeModalDirect()')+'">'+(o.confirmTxt||'Onayla')+'</button></div></div></div>';
 }
 function closeModal(e){if(e.target.id==='activeModal')closeModalDirect();}
 function closeModalDirect(){var m=document.getElementById('activeModal');if(m){m.classList.add('hide');setTimeout(function(){var mc=document.getElementById('modal-container');if(mc)mc.innerHTML='';},200);}}
@@ -722,21 +866,79 @@ function showPanel(name){
 }
 
 /* ── Helpers ── */
-function formatDate(d){if(!d)return'';const p=d.split('-');return parseInt(p[2])+' '+MONTHS_TR[parseInt(p[1])]+' '+p[0];}
-function timeToMin(t){const p=t.split(':');return parseInt(p[0])*60+parseInt(p[1]);}
+function formatDate(d){if(!d)return'';var p=d.split('-');return parseInt(p[2])+' '+MONTHS_TR[parseInt(p[1])]+' '+p[0];}
+function timeToMin(t){var p=t.split(':');return parseInt(p[0])*60+parseInt(p[1]);}
+
+// Berber için efektif çalışma saatlerini al (berber özel varsa onu kullan, yoksa genel)
+function getEffectiveHours(barberId,dow){
+  var b=S.barbers.find(function(x){return x.id===barberId;});
+  if(b&&b.customHours&&b.customHours.enabled){return b.customHours.hours[dow];}
+  return S.workHours[dow];
+}
+
 function isHoliday(dateStr){
   if(S.holidays.includes(dateStr))return true;
-  const dow=new Date(dateStr+'T00:00:00').getDay();
+  var dow=new Date(dateStr+'T00:00:00').getDay();
   return !S.workHours[dow].open;
+}
+function isBarberAvailableOnDate(barberId,dateStr){
+  if(S.holidays.includes(dateStr))return false;
+  var dow=new Date(dateStr+'T00:00:00').getDay();
+  var wh=getEffectiveHours(barberId,dow);
+  return wh.open;
+}
+function getOpenSlotsForBarber(barberId,dateStr){
+  if(!isBarberAvailableOnDate(barberId,dateStr))return[];
+  var dow=new Date(dateStr+'T00:00:00').getDay();
+  var wh=getEffectiveHours(barberId,dow);
+  var sm=timeToMin(wh.start),em=timeToMin(wh.end);
+  return ALL_SLOTS.filter(function(t){var tm=timeToMin(t);return tm>=sm&&tm<em;});
 }
 function getOpenSlots(dateStr){
   if(isHoliday(dateStr))return[];
-  const dow=new Date(dateStr+'T00:00:00').getDay();
-  const wh=S.workHours[dow];
-  const sm=timeToMin(wh.start),em=timeToMin(wh.end);
-  return ALL_SLOTS.filter(function(t){const tm=timeToMin(t);return tm>=sm&&tm<em;});
+  var dow=new Date(dateStr+'T00:00:00').getDay();
+  var wh=S.workHours[dow];
+  var sm=timeToMin(wh.start),em=timeToMin(wh.end);
+  return ALL_SLOTS.filter(function(t){var tm=timeToMin(t);return tm>=sm&&tm<em;});
 }
-function cleanPastAppts(){S.appointments.forEach(function(a){if(a.date<TODAY&&a.status==='confirmed')a.status='past';});}
+
+// ── ÇAKİŞMA KONTROLÜ: Servis süresi kadar sonraki slotları da bloke et ──
+function getBusySlotsForBarber(barberId,dateStr,excludeId){
+  var appts=S.appointments.filter(function(a){
+    return a.barberId===barberId&&a.date===dateStr&&a.status!=='cancelled'&&a.status!=='past'&&a.id!==excludeId;
+  });
+  var busySet={};
+  appts.forEach(function(a){
+    var svc=S.services.find(function(s){return s.id===a.serviceId;});
+    var dur=svc?svc.dur:30;
+    var startMin=timeToMin(a.time);
+    var endMin=startMin+dur;
+    ALL_SLOTS.forEach(function(t){
+      var tm=timeToMin(t);
+      if(tm>=startMin&&tm<endMin)busySet[t]=true;
+    });
+  });
+  return busySet;
+}
+
+// Belirli bir saat + süre için çakışma var mı?
+function hasConflict(barberId,dateStr,time,dur,excludeId){
+  var startMin=timeToMin(time);
+  var endMin=startMin+dur;
+  var appts=S.appointments.filter(function(a){
+    return a.barberId===barberId&&a.date===dateStr&&a.status!=='cancelled'&&a.status!=='past'&&a.id!==excludeId;
+  });
+  for(var i=0;i<appts.length;i++){
+    var a=appts[i];
+    var sv=S.services.find(function(s){return s.id===a.serviceId;})||{dur:30};
+    var aStart=timeToMin(a.time);
+    var aEnd=aStart+sv.dur;
+    if(startMin<aEnd&&endMin>aStart)return a;
+  }
+  return null;
+}
+
+function cleanPastAppts(){S.appointments.forEach(function(a){if(a.date<TODAY&&a.status==='confirmed')a.status='past';if(a.date<TODAY&&a.status==='pending')a.status='past';});}
 function inlineStyle(s){return 'width:100%;background:var(--dark3);border:1px solid #333;border-radius:9px;padding:10px 12px;color:var(--white);font-family:Raleway,sans-serif;font-size:13px;outline:none;'+(s||'');}
 
 /* ═══════════════════════
@@ -744,7 +946,9 @@ function inlineStyle(s){return 'width:100%;background:var(--dark3);border:1px so
 ═══════════════════════ */
 function initRandevuPanel(){
   renderBarberBtns();
+  renderCatFilter();
   renderSvcOpts();
+  onSvcChange();
   var de=document.getElementById('r-date');if(!de.value)de.value=TODAY;
   renderTimeGrid();checkClosedBanner();
   fillRandevuForm();
@@ -758,55 +962,130 @@ function fillRandevuForm(){
 }
 function checkClosedBanner(){
   var date=document.getElementById('r-date')&&document.getElementById('r-date').value||TODAY;
-  var b=document.getElementById('shop-closed-banner');if(b)b.style.display=isHoliday(date)?'block':'none';
+  var b=document.getElementById('shop-closed-banner');
+  if(b)b.style.display=(!isBarberAvailableOnDate(S.selBarberId,date))?'block':'none';
 }
-function renderBarberBtns(){
-  var el=document.getElementById('barber-list-randevu');if(!el)return;
-  el.innerHTML=S.barbers.map(function(b){
-    return '<button class="barber-btn'+(S.selBarberId===b.id?' selected':'')+'" onclick="selBarber('+b.id+')"><div class="barber-avatar">'+b.initials+'</div><div class="barber-info"><div>'+b.name+'</div><div class="barber-role">'+b.role+'</div></div><div class="b-check">✓</div></button>';
+
+/* KATEGORİ FİLTRESİ */
+function renderCatFilter(){
+  var el=document.getElementById('svc-cat-filter');if(!el)return;
+  var cats=['Tümü'].concat(Object.keys(CAT_COLORS));
+  el.innerHTML=cats.map(function(c){
+    return'<div class="cat-btn'+(S.selCatFilter===c?' active':'')+'" onclick="selCatFilter(\''+c+'\')">'+c+'</div>';
   }).join('');
 }
+function selCatFilter(cat){S.selCatFilter=cat;renderCatFilter();renderSvcOpts();}
 function renderSvcOpts(){
   var sel=document.getElementById('r-service');if(!sel)return;
-  sel.innerHTML=S.services.map(function(s){return'<option value="'+s.id+'">'+s.name+' · '+s.price+'₺ · '+s.dur+' dk</option>';}).join('');
+  var svcs=S.services;
+  if(S.selCatFilter&&S.selCatFilter!=='Tümü')svcs=svcs.filter(function(s){return s.cat===S.selCatFilter;});
+  sel.innerHTML=svcs.map(function(s){return'<option value="'+s.id+'">'+s.name+' · '+s.price+'₺ · '+s.dur+' dk</option>';}).join('');
+  if(!sel.options.length)sel.innerHTML='<option value="">Bu kategoride hizmet yok</option>';
 }
-function selBarber(id){S.selBarberId=id;S.selTime=null;renderBarberBtns();renderTimeGrid();}
+
+function onSvcChange(){
+  var sel=document.getElementById('r-service');
+  var bar=document.getElementById('svc-info-bar');
+  if(!sel||!bar)return;
+  var svcId=parseInt(sel.value);
+  var svc=S.services.find(function(s){return s.id===svcId;});
+  if(svc){
+    var cc=CAT_COLORS[svc.cat]||CAT_COLORS['Diğer'];
+    bar.style.display='block';
+    bar.innerHTML='<span style="background:'+cc.bg+';border:1px solid '+cc.border+';color:'+cc.text+';border-radius:50px;padding:2px 9px;font-size:9px;font-weight:700;letter-spacing:1px;margin-right:8px;">'+svc.cat+'</span>'
+      +'⏱ <strong style="color:var(--white)">'+svc.dur+' dakika</strong> · 💰 <strong style="color:var(--gold)">'+svc.price+'₺</strong>';
+    renderTimeGrid();
+  }else{bar.style.display='none';}
+}
+
+function selBarber(id){S.selBarberId=id;S.selTime=null;renderBarberBtns();renderTimeGrid();checkClosedBanner();}
+function renderBarberBtns(){
+  var el=document.getElementById('barber-list-randevu');if(!el)return;
+  var date=document.getElementById('r-date')&&document.getElementById('r-date').value||TODAY;
+  el.innerHTML=S.barbers.map(function(b){
+    var avail=isBarberAvailableOnDate(b.id,date);
+    var badge='<div class="barber-hours-badge'+(avail?'':' closed')+'">'+(avail?'Müsait':'Kapalı')+'</div>';
+    return'<button class="barber-btn'+(S.selBarberId===b.id?' selected':'')+'" onclick="selBarber('+b.id+')">'
+      +'<div class="barber-avatar">'+b.initials+'</div>'
+      +'<div class="barber-info"><div>'+b.name+'</div><div class="barber-role">'+b.role+'</div>'+badge+'</div>'
+      +'<div class="b-check">✓</div></button>';
+  }).join('');
+}
 function renderTimeGrid(){
   var grid=document.getElementById('time-grid');if(!grid)return;
   var date=document.getElementById('r-date').value||TODAY;
-  var open=getOpenSlots(date);
-  var busy=S.appointments.filter(function(a){return a.barberId===S.selBarberId&&a.date===date&&a.status==='confirmed';}).map(function(a){return a.time;});
+  var open=getOpenSlotsForBarber(S.selBarberId,date);
+  var svcId=parseInt(document.getElementById('r-service').value);
+  var svc=S.services.find(function(s){return s.id===svcId;})||{dur:30};
+  var busy=getBusySlotsForBarber(S.selBarberId,date,null);
+
   if(open.length===0){grid.innerHTML='<div style="grid-column:span 3;text-align:center;padding:20px;font-size:11px;color:var(--red);">Bu gün kapalı. Farklı tarih seçin.</div>';return;}
+
+  // Seçili saate çakışma kontrolü
+  var cw=document.getElementById('conflict-warn');
+  if(S.selTime){
+    var conf=hasConflict(S.selBarberId,date,S.selTime,svc.dur,null);
+    if(conf&&cw){cw.style.display='block';document.getElementById('conflict-text').textContent=conf.name+'\'ın';}
+    else if(cw)cw.style.display='none';
+  }else if(cw)cw.style.display='none';
+
   grid.innerHTML=ALL_SLOTS.map(function(t){
-    var isOpen=open.includes(t),isBusy=isOpen&&busy.includes(t),isSel=S.selTime===t&&isOpen&&!isBusy;
+    var isOpen=open.includes(t);
+    var isBusy=isOpen&&busy[t];
+    var isSel=S.selTime===t&&isOpen&&!isBusy;
     if(!isOpen)return'<div class="time-btn closed">'+t+'</div>';
-    if(isBusy) return'<div class="time-btn busy">'+t+'</div>';
+    if(isBusy)return'<div class="time-btn busy">'+t+'</div>';
     return'<div class="time-btn'+(isSel?' selected':'')+'" onclick="selSlot(\''+t+'\')">'+t+'</div>';
   }).join('');
 }
 function selSlot(t){S.selTime=t;renderTimeGrid();}
-document.addEventListener('change',function(e){if(e.target.id==='r-date'){renderTimeGrid();checkClosedBanner();}});
+function selRemOpt(opt,el){
+  S.selRemOpt=opt;
+  document.querySelectorAll('.remind-opt-btn').forEach(function(b){b.classList.remove('active');});
+  el.classList.add('active');
+}
+document.addEventListener('change',function(e){
+  if(e.target.id==='r-date'){renderBarberBtns();renderTimeGrid();checkClosedBanner();}
+});
+
+function validateRandevuForm(){
+  var name=document.getElementById('r-name').value.trim();
+  var phone=document.getElementById('r-phone').value.trim();
+  var ok=true;
+  var hn=document.getElementById('hint-rname');
+  var hp=document.getElementById('hint-rphone');
+  var rn=document.getElementById('r-name');
+  var rp=document.getElementById('r-phone');
+  if(!validateName(name)){rn.classList.add('error');hn.classList.add('show');ok=false;}
+  else{rn.classList.remove('error');hn.classList.remove('show');}
+  if(!validatePhone(phone)){rp.classList.add('error');hp.classList.add('show');ok=false;}
+  else{rp.classList.remove('error');hp.classList.remove('show');}
+  return ok;
+}
+
 function submitRandevu(){
   var name=document.getElementById('r-name').value.trim();
   var phone=document.getElementById('r-phone').value.trim();
   var date=document.getElementById('r-date').value;
   var svcId=parseInt(document.getElementById('r-service').value);
-  if(!name){toast('Hata','Lütfen adınızı giriniz.','error');return;}
-  if(!phone){toast('Hata','Lütfen telefonunuzu giriniz.','error');return;}
+  if(!validateRandevuForm())return;
   if(!date){toast('Hata','Lütfen tarih seçiniz.','error');return;}
-  if(isHoliday(date)){toast('Hata','Bu gün kapalı! Farklı bir tarih seçin.','error');return;}
+  if(!isBarberAvailableOnDate(S.selBarberId,date)){toast('Hata','Bu berber bu gün çalışmıyor!','error');return;}
   if(!S.selTime){toast('Hata','Lütfen bir saat seçiniz.','error');return;}
-  var service=S.services.find(function(s){return s.id===svcId;});
+  var svc=S.services.find(function(s){return s.id===svcId;});
+  if(!svc){toast('Hata','Hizmet seçiniz.','error');return;}
+  var conf=hasConflict(S.selBarberId,date,S.selTime,svc.dur,null);
+  if(conf){toast('Çakışma!',conf.name+'\'ın randevusuyla çakışıyor. Başka saat seçin.','error',5000);return;}
   var userId=S.loggedInUser?S.loggedInUser.id:null;
-  S.appointments.push({id:'a'+Date.now(),name:name,phone:phone,barberId:S.selBarberId,serviceId:svcId,date:date,time:S.selTime,status:'confirmed',userId:userId});
+  var newId='a'+Date.now();
+  S.appointments.push({id:newId,name:name,phone:phone,barberId:S.selBarberId,serviceId:svcId,date:date,time:S.selTime,status:'confirmed',userId:userId,remOpt:S.selRemOpt});
   var savedTime=S.selTime;
   S.selTime=null;
   if(!S.loggedInUser){document.getElementById('r-name').value='';document.getElementById('r-phone').value='';}
   renderTimeGrid();updateSvcDD();
-  toast('Randevu Alındı! ✂️',name+' · '+service.name+' · '+formatDate(date)+' '+savedTime,'success',4500);
-  // Admin bildirimi
+  toast('Randevu Alındı! ✂️',name+' · '+svc.name+' · '+formatDate(date)+' '+savedTime,'success',4500);
   var barberName=(S.barbers.find(function(b){return b.id===S.selBarberId;})||{name:'?'}).name;
-  addAdminNotif({icon:'📋',title:'Yeni Randevu: '+name,text:service.name+' · '+formatDate(date)+' '+savedTime+' · '+barberName});
+  addAdminNotif({icon:'📋',title:'Yeni Randevu: '+name,text:svc.name+' · '+formatDate(date)+' '+savedTime+' · '+barberName});
   if(S.loggedInUser){renderMusteriPanel();checkReminders();}
   lsSaveAll();
   renderAdminAll();
@@ -818,12 +1097,11 @@ function submitRandevu(){
 function musteriGiris(){
   var id=document.getElementById('login-id').value.trim();
   var pass=document.getElementById('login-pass').value;
-  var user=S.customers.find(function(c){return c.phone===id&&c.pass===pass;});
+  var user=S.customers.find(function(c){return c.phone.replace(/\D/g,'')=== id.replace(/\D/g,'')&&c.pass===pass;});
   if(!user){toast('Hata','Bilgiler hatalı.','error');return;}
   S.loggedInUser=user;
   lsSave('musteri_uid',user.id);
-  renderMusteriPanel();checkReminders();
-  fillRandevuForm();
+  renderMusteriPanel();checkReminders();fillRandevuForm();
   toast('Hoş Geldiniz!',user.name,'success');
 }
 function musteriKayit(){
@@ -832,34 +1110,45 @@ function musteriKayit(){
   var pass=document.getElementById('reg-pass').value;
   var pass2=document.getElementById('reg-pass2').value;
   if(!name||!phone||!pass){toast('Hata','Tüm alanları doldurunuz.','error');return;}
+  if(!validatePhone(phone)){toast('Hata','Geçerli bir telefon girin (05XX ile başlamalı, 11 hane).','error');return;}
   if(pass!==pass2){toast('Hata','Şifreler uyuşmuyor.','error');return;}
   if(pass.length<6){toast('Hata','Şifre en az 6 karakter.','error');return;}
-  if(S.customers.find(function(c){return c.phone===phone;})){toast('Hata','Bu telefon zaten kayıtlı.','error');return;}
-  var u={id:'u'+Date.now(),name:name,phone:phone,email:'',pass:pass,vip:false};
+  var rawPhone=phone.replace(/\D/g,'');
+  if(S.customers.find(function(c){return c.phone.replace(/\D/g,'')=== rawPhone;})){toast('Hata','Bu telefon zaten kayıtlı.','error');return;}
+  var u={id:'u'+Date.now(),name:name,phone:phone,pass:pass,vip:false};
   S.customers.push(u);S.loggedInUser=u;
-  lsSave('musteri_uid',u.id);
-  lsSaveAll();
-  fillRandevuForm();
-  renderMusteriPanel();renderAdminAll();
+  lsSave('musteri_uid',u.id);lsSaveAll();
+  fillRandevuForm();renderMusteriPanel();renderAdminAll();
   toast('Hesap Oluşturuldu!',name+' olarak giriş yapıldı.','success');
 }
 function musteriCikis(){
-  showModal({
-    title:'Çıkış Yap',sub:'Hesabından çıkış yapmak istiyor musun?',
+  showModal({title:'Çıkış Yap',sub:'Hesabından çıkış yapmak istiyor musun?',
     body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Çıkış yaptıktan sonra tekrar giriş yapman gerekecek.</div>',
-    confirmTxt:'Çıkış Yap',confirmClass:'danger',cancelTxt:'Vazgeç',
-    onConfirm:'confirmMusteriCikis()'
-  });
+    confirmTxt:'Çıkış Yap',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:'confirmMusteriCikis()'});
 }
 function confirmMusteriCikis(){
-  S.loggedInUser=null;
-  lsRemove('musteri_uid');
-  closeModalDirect();
+  S.loggedInUser=null;lsRemove('musteri_uid');closeModalDirect();
   document.getElementById('musteri-loggedin-view').style.display='none';
   document.getElementById('musteri-login-view').style.display='block';
   var rn=document.getElementById('r-name');var rp=document.getElementById('r-phone');
   if(rn)rn.value='';if(rp)rp.value='';
   toast('Çıkış Yapıldı','Güle güle!','info');
+}
+function musteriSifreDegistir(){
+  showModal({title:'Şifremi Değiştir',sub:'',
+    body:'<div class="field" style="margin-bottom:8px;"><label>Mevcut Şifre</label><input type="password" id="msd-cur" placeholder="Mevcut şifreniz" style="'+inlineStyle()+'"></div><div class="field" style="margin-bottom:8px;"><label>Yeni Şifre</label><input type="password" id="msd-new1" placeholder="En az 6 karakter" style="'+inlineStyle()+'"></div><div class="field"><label>Yeni Şifre Tekrar</label><input type="password" id="msd-new2" placeholder="Tekrar giriniz" style="'+inlineStyle()+'"></div>',
+    confirmTxt:'Güncelle',onConfirm:'confirmMusteriSifre()'});
+}
+function confirmMusteriSifre(){
+  var cur=document.getElementById('msd-cur')&&document.getElementById('msd-cur').value;
+  var n1=document.getElementById('msd-new1')&&document.getElementById('msd-new1').value;
+  var n2=document.getElementById('msd-new2')&&document.getElementById('msd-new2').value;
+  if(!S.loggedInUser)return;
+  if(cur!==S.loggedInUser.pass){toast('Hata','Mevcut şifre yanlış.','error');return;}
+  if(!n1||n1.length<6){toast('Hata','Yeni şifre en az 6 karakter.','error');return;}
+  if(n1!==n2){toast('Hata','Şifreler uyuşmuyor.','error');return;}
+  S.loggedInUser.pass=n1;lsSaveAll();closeModalDirect();
+  toast('Şifre Güncellendi','Başarıyla değiştirildi.','success');
 }
 function renderMusteriPanel(){
   if(!S.loggedInUser){
@@ -874,7 +1163,7 @@ function renderMusteriPanel(){
   document.getElementById('m-fullname').textContent=u.name;
   document.getElementById('m-meta').textContent=u.phone+' · '+(u.vip?'VIP Üye':'Üye');
   var ua=S.appointments.filter(function(a){return a.userId===u.id;});
-  var active=ua.filter(function(a){return a.date>=TODAY&&a.status==='confirmed';});
+  var active=ua.filter(function(a){return a.date>=TODAY&&(a.status==='confirmed'||a.status==='pending');});
   var past=ua.filter(function(a){return a.date<TODAY||a.status==='past'||a.status==='cancelled';});
   document.getElementById('m-active-appts').innerHTML=active.length===0?'<div class="empty-state"><div class="empty-icon">📅</div><p>Aktif randevunuz yok.</p></div>':active.map(function(a){return renderApptCard(a,true);}).join('');
   var pastEl=document.getElementById('m-past-appts');
@@ -890,16 +1179,51 @@ function renderMusteriPanel(){
 function renderApptCard(a,showAct,showDel){
   var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:'–'};
   var sv=S.services.find(function(x){return x.id===a.serviceId;})||{name:'–',price:0};
-  var sm={confirmed:'status-confirmed',cancelled:'status-cancelled',past:'status-past'};
-  var st={confirmed:'Onaylı',cancelled:'İptal Edildi',past:'Tamamlandı'};
+  var sm={confirmed:'status-confirmed',pending:'status-pending',cancelled:'status-cancelled',past:'status-past'};
+  var st={confirmed:'Onaylı',pending:'Beklemede',cancelled:'İptal Edildi',past:'Tamamlandı'};
   var act=showAct?'<div class="appt-actions"><button class="appt-action-btn change" onclick="changeAppt(\''+a.id+'\')">Değiştir</button><button class="appt-action-btn cancel" onclick="cancelAppt(\''+a.id+'\')">İptal Et</button></div>':'';
   var del=showDel?'<button onclick="deletePastOne(\''+a.id+'\''+')" style="position:absolute;top:10px;right:10px;background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.2);border-radius:6px;width:22px;height:22px;color:var(--red);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>':'';
-  return'<div class="appt-card" style="position:relative;">'+del+'<div class="appt-header"><span style="font-size:11px;color:var(--grey);">'+formatDate(a.date)+'</span><span class="appt-status '+(sm[a.status]||'status-past')+'">'+( st[a.status]||a.status)+'</span></div><div class="appt-service">'+sv.name+'</div><div class="appt-meta"><span>🕐 '+a.time+'</span><span>✂️ '+b.name+'</span><span>💰 '+sv.price+'₺</span></div>'+act+'</div>';
+  var reviewSection='';
+  if(showDel&&(a.status==='past'||a.date<TODAY)){
+    if(a.rating){
+      reviewSection='<div style="margin-top:6px;background:var(--dark4);border:1px solid #2a2a2a;border-radius:8px;padding:8px 10px;">'
+        +'<div style="color:var(--gold);font-size:11px;margin-bottom:3px;">'+'★'.repeat(a.rating)+'☆'.repeat(5-a.rating)+'</div>'
+        +(a.review?'<div style="font-size:10px;color:var(--grey);">'+a.review+'</div>':'')
+        +'</div>';
+    }else{
+      reviewSection='<button onclick="rateAppt(\''+a.id+'\')" style="width:100%;margin-top:7px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:7px;font-family:Raleway,sans-serif;font-size:10px;font-weight:700;color:var(--gold);cursor:pointer;letter-spacing:1px;">⭐ Değerlendir</button>';
+    }
+  }
+  return'<div class="appt-card" style="position:relative;">'+del+'<div class="appt-header"><span style="font-size:11px;color:var(--grey);">'+formatDate(a.date)+'</span><span class="appt-status '+(sm[a.status]||'status-past')+'">'+(st[a.status]||a.status)+'</span></div><div class="appt-service">'+sv.name+'</div><div class="appt-meta"><span>🕐 '+a.time+'</span><span>✂️ '+b.name+'</span><span>💰 '+sv.price+'₺</span></div>'+act+reviewSection+'</div>';
 }
+
+/* PUAN */
+var _rateId=null;var _rateStar=0;
+function rateAppt(id){
+  _rateId=id;_rateStar=0;
+  var starsHtml='<div class="star-row" id="star-row">'+'☆☆☆☆☆'.split('').map(function(_,i){return'<span class="star-btn" id="star-'+(i+1)+'" onclick="setStar('+(i+1)+')" onmouseover="hoverStar('+(i+1)+')" onmouseout="resetStarHover()">★</span>';}).join('')+'</div>';
+  showModal({title:'Randevuyu Değerlendir',sub:'Deneyiminizi paylaşın',
+    body:starsHtml+'<div class="field" style="margin-top:8px;"><label>Yorumunuz (isteğe bağlı)</label><input type="text" id="review-text" placeholder="Harika bir deneyim..." style="'+inlineStyle()+'"></div>',
+    confirmTxt:'Gönder',onConfirm:'submitRating()'});
+}
+function hoverStar(n){for(var i=1;i<=5;i++){var s=document.getElementById('star-'+i);if(s)s.classList.toggle('active',i<=n);}}
+function resetStarHover(){for(var i=1;i<=5;i++){var s=document.getElementById('star-'+i);if(s)s.classList.toggle('active',i<=_rateStar);}}
+function setStar(n){_rateStar=n;resetStarHover();}
+function submitRating(){
+  if(_rateStar===0){toast('Hata','Lütfen puan seçin.','error');return;}
+  var a=S.appointments.find(function(x){return x.id===_rateId;});
+  var rv=document.getElementById('review-text')&&document.getElementById('review-text').value.trim();
+  if(a){a.rating=_rateStar;a.review=rv||'';}
+  closeModalDirect();renderMusteriPanel();lsSaveAll();
+  toast('Teşekkürler!','Değerlendirmeniz kaydedildi.','success');
+}
+
 function cancelAppt(id){
   var a=S.appointments.find(function(x){return x.id===id;});if(!a)return;
   var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?'};
-  showModal({title:'Randevu İptal',sub:sv.name+' · '+a.date+' '+a.time,body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Randevunuz iptal edilecektir. Emin misiniz?</div>',confirmTxt:'İptal Et',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:"confirmCancelAppt('"+id+"')"});
+  showModal({title:'Randevu İptal',sub:sv.name+' · '+a.date+' '+a.time,
+    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Randevunuz iptal edilecektir.</div>',
+    confirmTxt:'İptal Et',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:"confirmCancelAppt('"+id+"')"});
 }
 function confirmCancelAppt(id){
   var a=S.appointments.find(function(x){return x.id===id;});
@@ -923,7 +1247,12 @@ function confirmChangeAppt(id){
   var a=S.appointments.find(function(x){return x.id===id;});
   var d=document.getElementById('chdate')&&document.getElementById('chdate').value;
   var t=document.getElementById('chtime')&&document.getElementById('chtime').value;
-  if(a&&d&&t){a.date=d;a.time=t;a.status='confirmed';}
+  var svc=a?S.services.find(function(s){return s.id===a.serviceId;})||{dur:30}:{dur:30};
+  if(a&&d&&t){
+    var conf=hasConflict(a.barberId,d,t,svc.dur,id);
+    if(conf){toast('Çakışma!',conf.name+'\'ın randevusuyla çakışıyor.','error',5000);return;}
+    a.date=d;a.time=t;a.status='confirmed';
+  }
   closeModalDirect();renderMusteriPanel();renderAdminAll();lsSaveAll();
   if(a){
     var sv2=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?'};
@@ -932,25 +1261,20 @@ function confirmChangeAppt(id){
   }
   toast('Randevu Güncellendi','Yeni: '+d+' '+t,'success');
 }
-
-/* ── Geçmiş Randevu Silme ── */
 function deletePastOne(id){
   showModal({title:'Kaydı Sil',sub:'Bu randevu geçmişten silinecek.',
-    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Sadece görünümden kaldırılır, admin panelini etkilemez.</div>',
-    confirmTxt:'Sil',confirmClass:'danger',cancelTxt:'Vazgeç',
-    onConfirm:"confirmDeletePastOne('"+id+"')"});
+    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Sadece görünümden kaldırılır.</div>',
+    confirmTxt:'Sil',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:"confirmDeletePastOne('"+id+"')"});
 }
 function confirmDeletePastOne(id){
   S.appointments=S.appointments.filter(function(a){return a.id!==id;});
-  closeModalDirect();renderMusteriPanel();lsSaveAll();
-  toast('Kayıt Silindi','','warn');
+  closeModalDirect();renderMusteriPanel();lsSaveAll();toast('Kayıt Silindi','','warn');
 }
 function deletePastAll(){
   if(!S.loggedInUser)return;
   showModal({title:'Tüm Geçmişi Sil',sub:'Geçmiş randevularınızın tamamı silinecek.',
     body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Bu işlem geri alınamaz.</div>',
-    confirmTxt:'Tümünü Sil',confirmClass:'danger',cancelTxt:'Vazgeç',
-    onConfirm:'confirmDeletePastAll()'});
+    confirmTxt:'Tümünü Sil',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:'confirmDeletePastAll()'});
 }
 function confirmDeletePastAll(){
   var uid=S.loggedInUser.id;
@@ -958,54 +1282,65 @@ function confirmDeletePastAll(){
     var isPast=a.date<TODAY||a.status==='past'||a.status==='cancelled';
     return!(a.userId===uid&&isPast);
   });
-  closeModalDirect();renderMusteriPanel();lsSaveAll();
-  toast('Geçmiş Silindi','','warn');
+  closeModalDirect();renderMusteriPanel();lsSaveAll();toast('Geçmiş Silindi','','warn');
 }
 
-/* ── WhatsApp Bildirim ── */
+/* ── WhatsApp ── */
 function sendWaNotif(msg){
-  var phone=S.adminPhone||lsLoad('admin_phone')||'';
-  phone=phone.replace(/[^0-9]/g,'');
-  if(!phone||phone.length<10){return;}
-  var url='https://wa.me/'+phone+'?text='+encodeURIComponent(msg);
-  window.open(url,'_blank');
+  var phone=S.adminPhone||'';phone=phone.replace(/[^0-9]/g,'');
+  if(!phone||phone.length<10)return;
+  window.open('https://wa.me/'+phone+'?text='+encodeURIComponent(msg),'_blank');
 }
 function saveAdminPhone(){
   var v=document.getElementById('admin-wa-phone')&&document.getElementById('admin-wa-phone').value.replace(/[^0-9]/g,'');
-  if(!v||v.length<10){toast('Hata','Geçerli bir numara girin (ülke kodu dahil).','error');return;}
-  S.adminPhone=v;
-  lsSave('admin_phone',v);
+  if(!v||v.length<10){toast('Hata','Geçerli bir numara girin.','error');return;}
+  S.adminPhone=v;lsSave('admin_phone',v);
   var d=document.getElementById('wa-phone-display');
   if(d){d.style.display='block';d.textContent='✓ Kaydedildi: +'+v;}
   toast('WhatsApp Numarası Kaydedildi','+'+v,'success');
 }
 function renderAdminPhone(){
-  var el=document.getElementById('admin-wa-phone');
-  var d=document.getElementById('wa-phone-display');
+  var el=document.getElementById('admin-wa-phone');var d=document.getElementById('wa-phone-display');
   var phone=lsLoad('admin_phone')||S.adminPhone||'';
-  if(phone){
-    S.adminPhone=phone;
-    if(el)el.value=phone;
-    if(d){d.style.display='block';d.textContent='✓ Kayıtlı numara: +'+phone;}
-  }
+  if(phone){S.adminPhone=phone;if(el)el.value=phone;if(d){d.style.display='block';d.textContent='✓ Kayıtlı: +'+phone;}}
 }
 
 /* ── Hatırlatıcı ── */
 function checkReminders(){
   if(!S.loggedInUser)return;
-  var tmrw=new Date();tmrw.setDate(tmrw.getDate()+1);
-  var tmrwStr=tmrw.toISOString().split('T')[0];
-  var rem=S.appointments.filter(function(a){return a.userId===S.loggedInUser.id&&a.date===tmrwStr&&a.status==='confirmed';});
-  var sec=document.getElementById('m-reminders-section');
-  var el=document.getElementById('m-reminders');
-  if(rem.length===0){if(sec)sec.style.display='none';return;}
+  var now=new Date();
+  var remItems=[];
+  S.appointments.filter(function(a){
+    return a.userId===S.loggedInUser.id&&(a.status==='confirmed'||a.status==='pending')&&a.date>=TODAY;
+  }).forEach(function(a){
+    var apptDate=new Date(a.date+'T'+a.time+':00');
+    var diffMs=apptDate-now;
+    var diffH=diffMs/(1000*3600);
+    var opt=a.remOpt||'none';
+    var shouldShow=false;
+    if(opt==='2h'&&diffH>0&&diffH<=2)shouldShow=true;
+    if(opt==='1d'&&diffH>0&&diffH<=24)shouldShow=true;
+    if(opt==='2d'&&diffH>0&&diffH<=48)shouldShow=true;
+    // Yarın randevusu varsa her zaman göster (eski davranış)
+    var tmrw=new Date();tmrw.setDate(tmrw.getDate()+1);
+    var tmrwStr=tmrw.toISOString().split('T')[0];
+    if(a.date===tmrwStr)shouldShow=true;
+    if(shouldShow)remItems.push(a);
+  });
+  var sec=document.getElementById('m-reminders-section');var el=document.getElementById('m-reminders');
+  var ind=document.getElementById('reminder-bell-indicator');
+  if(remItems.length===0){if(sec)sec.style.display='none';if(ind)ind.style.display='none';return;}
   if(sec)sec.style.display='block';
-  el.innerHTML=rem.map(function(a){
+  if(ind)ind.style.display='inline';
+  el.innerHTML=remItems.map(function(a){
     var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?',price:0};
     var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:'?'};
-    return'<div class="reminder-card"><div class="reminder-time">🔔 YARIN · '+a.time+'</div><div class="reminder-text">'+sv.name+'</div><div class="reminder-sub">✂️ '+b.name+' · 💰 '+sv.price+'₺</div></div>';
+    return'<div class="reminder-card"><div class="reminder-time">🔔 '+formatDate(a.date)+' · '+a.time+'</div><div class="reminder-text">'+sv.name+'</div><div class="reminder-sub">✂️ '+b.name+' · 💰 '+sv.price+'₺</div></div>';
   }).join('');
-  rem.forEach(function(a){var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?'};toast('🔔 Randevu Hatırlatıcı','Yarın '+a.time+' · '+sv.name,'bell',6000);});
+  remItems.forEach(function(a){
+    var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?'};
+    toast('🔔 Randevu Hatırlatıcı',formatDate(a.date)+' '+a.time+' · '+sv.name,'bell',6000);
+  });
 }
 function testReminder(){
   toast('🔔 Randevu Hatırlatıcı','Yarın 14:00 · Saç + Sakal · Ahmet TEKELİ','bell',6000);
@@ -1013,40 +1348,30 @@ function testReminder(){
 }
 
 /* ═══════════════════════
-   ADMİN BİLDİRİMLER
+   ADMİN
 ═══════════════════════ */
 var adminNotifs=[];
 function addAdminNotif(notif){
-  notif.id='n'+Date.now()+Math.random();
-  notif.time=new Date();
-  adminNotifs.unshift(notif);
-  if(adminNotifs.length>20)adminNotifs=adminNotifs.slice(0,20);
+  notif.id='n'+Date.now()+Math.random();notif.time=new Date();
+  adminNotifs.unshift(notif);if(adminNotifs.length>20)adminNotifs=adminNotifs.slice(0,20);
   renderAdminNotifBadge();
-  // Eğer admin paneli açıksa toast göster
   var adminOpen=document.getElementById('admin-panel-view')&&document.getElementById('admin-panel-view').style.display!=='none';
-  if(adminOpen){
-    toast('📋 Yeni Randevu!',notif.text,'info',5000);
-    renderAdminNotifList();
-  }
+  if(adminOpen){toast('📋 '+notif.title,notif.text,'info',5000);renderAdminNotifList();}
 }
 function renderAdminNotifBadge(){
-  var badge=document.getElementById('admin-notif-badge');
-  var badge2=document.getElementById('admin-notif-badge2');
-  var count=adminNotifs.length;
+  var badge=document.getElementById('admin-notif-badge');var count=adminNotifs.length;
   if(badge){badge.style.display=count>0?'flex':'none';badge.textContent=count>9?'9+':count;}
-  if(badge2){badge2.style.display=count>0?'flex':'none';badge2.textContent=count>9?'9+':count;}
 }
 function renderAdminNotifList(){
   var el=document.getElementById('admin-notif-list');if(!el)return;
   if(adminNotifs.length===0){el.innerHTML='<div style="font-size:11px;color:var(--grey);text-align:center;padding:8px 0;">Bildirim yok.</div>';return;}
   el.innerHTML=adminNotifs.map(function(n){
-    var ago=timeAgo(n.time);
     return'<div style="padding:8px 0;border-bottom:1px solid #2a2a2a;display:flex;align-items:flex-start;gap:8px;">'
-      +'<div style="font-size:16px;flex-shrink:0;margin-top:1px;">'+( n.icon||'📋')+'</div>'
+      +'<div style="font-size:16px;flex-shrink:0;">'+( n.icon||'📋')+'</div>'
       +'<div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--white2);">'+n.title+'</div>'
       +'<div style="font-size:10px;color:var(--grey);margin-top:2px;">'+n.text+'</div>'
-      +'<div style="font-size:9px;color:#555;margin-top:3px;letter-spacing:.5px;">'+ago+'</div></div>'
-      +'<button onclick="removeAdminNotif(\''+n.id+'\')" style="background:none;border:none;color:#555;cursor:pointer;font-size:12px;padding:0;flex-shrink:0;margin-top:1px;">✕</button>'
+      +'<div style="font-size:9px;color:#555;margin-top:3px;">'+timeAgo(n.time)+'</div></div>'
+      +'<button onclick="removeAdminNotif(\''+n.id+'\')" style="background:none;border:none;color:#555;cursor:pointer;font-size:12px;padding:0;flex-shrink:0;">✕</button>'
       +'</div>';
   }).join('');
 }
@@ -1054,70 +1379,98 @@ function removeAdminNotif(nid){adminNotifs=adminNotifs.filter(function(n){return
 function clearAdminNotifs(){adminNotifs=[];renderAdminNotifBadge();renderAdminNotifList();}
 function toggleAdminNotifs(){
   var p=document.getElementById('admin-notif-panel');if(!p)return;
-  var open=p.style.display!=='none';
-  p.style.display=open?'none':'block';
+  var open=p.style.display!=='none';p.style.display=open?'none':'block';
   if(!open)renderAdminNotifList();
 }
 function timeAgo(date){
   var diff=Math.floor((new Date()-date)/1000);
-  if(diff<60)return'Az önce';
-  if(diff<3600)return Math.floor(diff/60)+' dakika önce';
+  if(diff<60)return'Az önce';if(diff<3600)return Math.floor(diff/60)+' dk önce';
   if(diff<86400)return Math.floor(diff/3600)+' saat önce';
   return formatDate(date.toISOString().split('T')[0]);
 }
 
-
 function adminGiris(){
-  if(document.getElementById('admin-user').value==='admin'&&document.getElementById('admin-pass').value==='1234'){
+  if(document.getElementById('admin-user').value==='admin'&&document.getElementById('admin-pass').value===ADMIN_PASS){
     document.getElementById('admin-login-view').style.display='none';
     document.getElementById('admin-panel-view').style.display='block';
-    lsSave('admin_session','1');
-    renderAdminAll();toast('Admin Girişi','Hoş geldiniz!','success');
+    lsSave('admin_session','1');renderAdminAll();toast('Admin Girişi','Hoş geldiniz!','success');
   }else{toast('Hata','Kullanıcı adı veya şifre yanlış.','error');}
 }
 function adminCikis(){
-  showModal({
-    title:'Admin Çıkışı',sub:'Yönetici panelinden çıkmak istiyor musunuz?',
-    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Çıkış yaptıktan sonra tekrar giriş yapmanız gerekecek.</div>',
-    confirmTxt:'Çıkış Yap',confirmClass:'danger',cancelTxt:'Vazgeç',
-    onConfirm:'confirmAdminCikis()'
-  });
+  showModal({title:'Admin Çıkışı',sub:'Yönetici panelinden çıkmak istiyor musunuz?',
+    body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Tekrar giriş yapmanız gerekecek.</div>',
+    confirmTxt:'Çıkış Yap',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:'confirmAdminCikis()'});
 }
 function confirmAdminCikis(){
-  lsRemove('admin_session');
-  closeModalDirect();
+  lsRemove('admin_session');closeModalDirect();
   document.getElementById('admin-panel-view').style.display='none';
   document.getElementById('admin-login-view').style.display='block';
-  toast('Çıkış Yapıldı','Görüşmek üzere.','info');
+  toast('Çıkış Yapıldı','','info');
 }
+function adminSifreDegistir(){
+  var cur=document.getElementById('admin-cur-pass')&&document.getElementById('admin-cur-pass').value;
+  var n1=document.getElementById('admin-new-pass1')&&document.getElementById('admin-new-pass1').value;
+  var n2=document.getElementById('admin-new-pass2')&&document.getElementById('admin-new-pass2').value;
+  if(cur!==ADMIN_PASS){toast('Hata','Mevcut şifre yanlış.','error');return;}
+  if(!n1||n1.length<6){toast('Hata','Yeni şifre en az 6 karakter.','error');return;}
+  if(n1!==n2){toast('Hata','Şifreler uyuşmuyor.','error');return;}
+  ADMIN_PASS=n1;
+  document.getElementById('admin-cur-pass').value='';
+  document.getElementById('admin-new-pass1').value='';
+  document.getElementById('admin-new-pass2').value='';
+  toast('Şifre Güncellendi','Admin şifresi değiştirildi.','success');
+}
+
 function renderAdminAll(){
   renderAdminStats();renderAdminAppts();renderServices();
   renderBarberManage();renderCustomers();renderCalendar();
-  renderHoursEditor();renderHolidayChips();
+  renderHoursEditor();renderHolidayChips();renderAdminCatFilter();
 }
+
 function renderAdminStats(){
   var el=document.getElementById('admin-stats');if(!el)return;
   cleanPastAppts();
-  var todayC=S.appointments.filter(function(a){return a.date===TODAY&&a.status==='confirmed';}).length;
+  var todayC=S.appointments.filter(function(a){return a.date===TODAY&&(a.status==='confirmed'||a.status==='pending');}).length;
+  var pendC=S.appointments.filter(function(a){return a.status==='pending'&&a.date>=TODAY;}).length;
   var d=new Date();d.setDate(d.getDate()-7);var ws=d.toISOString().split('T')[0];
-  var rev=S.appointments.filter(function(a){return a.date>=ws&&(a.status==='confirmed'||a.status==='past');}).reduce(function(s,a){var sv=S.services.find(function(x){return x.id===a.serviceId;});return s+(sv?sv.price:0);},0);
-  el.innerHTML='<div class="stat-box"><div class="stat-num">'+todayC+'</div><div class="stat-lbl">Bugünkü Randevu</div></div><div class="stat-box"><div class="stat-num">'+S.customers.length+'</div><div class="stat-lbl">Toplam Müşteri</div></div><div class="stat-box"><div class="stat-num">'+S.barbers.length+'</div><div class="stat-lbl">Aktif Berber</div></div><div class="stat-box"><div class="stat-num" style="font-size:'+(rev>99999?'14px':'18px')+'">'+rev.toLocaleString('tr-TR')+'₺</div><div class="stat-lbl">Bu Hafta Ciro</div></div>';
+  var rev=S.appointments.filter(function(a){return a.date>=ws&&(a.status==='confirmed'||a.status==='past');})
+    .reduce(function(s,a){var sv=S.services.find(function(x){return x.id===a.serviceId;});return s+(sv?sv.price:0);},0);
+  el.innerHTML='<div class="stat-box"><div class="stat-num">'+todayC+'</div><div class="stat-lbl">Bugün</div></div>'
+    +'<div class="stat-box"><div class="stat-num" style="color:var(--orange)">'+pendC+'</div><div class="stat-lbl">Bekliyor</div></div>'
+    +'<div class="stat-box"><div class="stat-num">'+S.customers.length+'</div><div class="stat-lbl">Müşteri</div></div>'
+    +'<div class="stat-box"><div class="stat-num" style="font-size:'+(rev>99999?'14px':'18px')+'">'+rev.toLocaleString('tr-TR')+'₺</div><div class="stat-lbl">Bu Hafta</div></div>';
 }
 
-/* ── Randevular ── */
+/* ── Randevular (Admin) ── */
 function renderAdminAppts(filter){
   filter=filter||'';
   var el=document.getElementById('admin-appt-list');var lbl=document.getElementById('appt-count-lbl');if(!el)return;
   cleanPastAppts();
-  var appts=S.appointments.filter(function(a){return a.date>=TODAY&&a.status==='confirmed';}).sort(function(a,b){return a.date!==b.date?(a.date>b.date?1:-1):(a.time>b.time?1:-1);});
+  var appts=S.appointments.filter(function(a){return a.date>=TODAY&&(a.status==='confirmed'||a.status==='pending');})
+    .sort(function(a,b){return a.date!==b.date?(a.date>b.date?1:-1):(a.time>b.time?1:-1);});
   if(filter){var q=filter.toLowerCase();appts=appts.filter(function(a){return a.name.toLowerCase().includes(q)||a.time.includes(q)||a.date.includes(q)||a.phone.includes(q);});}
   if(lbl)lbl.textContent=appts.length+' Randevu';
   if(appts.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><p>Aktif randevu yok.</p></div>';return;}
   el.innerHTML=appts.map(function(a){
     var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:'–'};
     var sv=S.services.find(function(x){return x.id===a.serviceId;})||{name:'–',price:0};
-    return'<div class="appt-card"><div class="appt-header"><span style="font-size:12px;font-weight:700;color:var(--white2);">'+a.name+'</span><span class="appt-status status-confirmed">Onaylı</span></div><div class="appt-service">'+sv.name+'</div><div class="appt-meta"><span>📅 '+formatDate(a.date)+'</span><span>🕐 '+a.time+'</span><span>✂️ '+b.name+'</span><span>💰 '+sv.price+'₺</span></div><div class="appt-actions"><button class="appt-action-btn change" onclick="adminEditAppt(\''+a.id+'\')">Düzenle</button><button class="appt-action-btn cancel" onclick="cancelAppt(\''+a.id+'\')">İptal Et</button></div></div>';
+    var isPend=a.status==='pending';
+    var approveBtn=isPend?'<button class="appt-action-btn approve" onclick="approveAppt(\''+a.id+'\')">Onayla</button>':'';
+    return'<div class="appt-card"><div class="appt-header"><span style="font-size:12px;font-weight:700;color:var(--white2);">'+a.name+'</span><span class="appt-status '+(isPend?'status-pending':'status-confirmed')+'">'+(isPend?'Bekliyor':'Onaylı')+'</span></div><div class="appt-service">'+sv.name+'</div><div class="appt-meta"><span>📅 '+formatDate(a.date)+'</span><span>🕐 '+a.time+'</span><span>✂️ '+b.name+'</span><span>💰 '+sv.price+'₺</span></div><div class="appt-actions">'+approveBtn+'<button class="appt-action-btn change" onclick="adminEditAppt(\''+a.id+'\')">Düzenle</button><button class="appt-action-btn cancel" onclick="adminRejectAppt(\''+a.id+'\')">İptal/Red</button></div></div>';
   }).join('');
+}
+function approveAppt(id){
+  var a=S.appointments.find(function(x){return x.id===id;});
+  if(a){a.status='confirmed';}
+  renderAdminAppts();renderAdminStats();renderMusteriPanel();lsSaveAll();
+  toast('Randevu Onaylandı','','success');
+  if(a){addAdminNotif({icon:'✅',title:'Onaylandı: '+a.name,text:formatDate(a.date)+' '+a.time});}
+}
+function adminRejectAppt(id){
+  var a=S.appointments.find(function(x){return x.id===id;});if(!a)return;
+  showModal({title:'İptal / Reddet',sub:a.name,
+    body:'<div style="font-size:12px;color:var(--grey);">Randevu iptal edilecektir.</div>',
+    confirmTxt:'İptal Et',confirmClass:'danger',cancelTxt:'Vazgeç',onConfirm:"confirmCancelAppt('"+id+"')"});
 }
 function adminEditAppt(id){
   var a=S.appointments.find(function(x){return x.id===id;});if(!a)return;
@@ -1132,15 +1485,54 @@ function confirmAdminEdit(id){
   var d=document.getElementById('ae-date')&&document.getElementById('ae-date').value;
   var t=document.getElementById('ae-time')&&document.getElementById('ae-time').value;
   var b=parseInt(document.getElementById('ae-barber')&&document.getElementById('ae-barber').value);
-  if(a){a.date=d;a.time=t;a.barberId=b;}
-  closeModalDirect();renderAdminAll();renderMusteriPanel();toast('Randevu Güncellendi','','success');
+  var svc=a?S.services.find(function(s){return s.id===a.serviceId;})||{dur:30}:{dur:30};
+  if(a&&d&&t){
+    var conf=hasConflict(b,d,t,svc.dur,id);
+    if(conf){toast('Çakışma!',conf.name+'\'ın randevusuyla çakışıyor.','error',5000);return;}
+    a.date=d;a.time=t;a.barberId=b;
+  }
+  closeModalDirect();renderAdminAll();renderMusteriPanel();lsSaveAll();toast('Randevu Güncellendi','','success');
 }
 
-/* ── Takvim ── */
+/* ── EXPORT ── */
+function exportCSV(){
+  cleanPastAppts();
+  var appts=S.appointments.filter(function(a){return a.date>=TODAY&&(a.status==='confirmed'||a.status==='pending');})
+    .sort(function(a,b){return a.date!==b.date?(a.date>b.date?1:-1):(a.time>b.time?1:-1);});
+  var rows=['Ad Soyad,Telefon,Tarih,Saat,Hizmet,Fiyat,Berber,Durum'];
+  appts.forEach(function(a){
+    var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'',price:0};
+    var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:''};
+    rows.push([a.name,a.phone,a.date,a.time,sv.name,sv.price+'₺',b.name,a.status].join(','));
+  });
+  var blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var link=document.createElement('a');link.href=url;link.download='randevular.csv';link.click();
+  URL.revokeObjectURL(url);
+  toast('CSV İndirildi','randevular.csv','success');
+}
+function exportTXT(){
+  cleanPastAppts();
+  var appts=S.appointments.filter(function(a){return a.date>=TODAY&&(a.status==='confirmed'||a.status==='pending');})
+    .sort(function(a,b){return a.date!==b.date?(a.date>b.date?1:-1):(a.time>b.time?1:-1);});
+  var lines=['AHMET TEKELİ ERKEK KUAFÖRÜ','Aktif Randevu Listesi','Oluşturma: '+new Date().toLocaleString('tr-TR'),'─'.repeat(40)];
+  appts.forEach(function(a){
+    var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'',price:0};
+    var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:''};
+    lines.push(formatDate(a.date)+' '+a.time+' | '+a.name+' | '+sv.name+' | '+b.name+' | '+sv.price+'₺ | '+(a.status==='pending'?'BEKLIYOR':'ONAYLANDI'));
+  });
+  var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var link=document.createElement('a');link.href=url;link.download='randevular.txt';link.click();
+  URL.revokeObjectURL(url);
+  toast('TXT İndirildi','randevular.txt','success');
+}
+
+/* ── TAKVİM ── */
 function renderCalendar(){renderBarberCalSel();renderCalGrid();}
 function renderBarberCalSel(){
   var el=document.getElementById('barber-cal-select');if(!el)return;
-  el.innerHTML=S.barbers.map(function(b){return'<button class="barber-cal-btn'+(S.calBarberId===b.id?' active':'')+'" onclick="selCalBarber('+b.id+')">'+b.initials+' '+b.name.split(' ')[0]+'</button>';}).join('');
+  el.innerHTML=S.barbers.map(function(b){return'<button class="barber-cal-btn'+(S.calBarberId===b.id?' active':'')+'" onclick="selCalBarber('+b.id+')">'+b.initials+'</button>';}).join('');
 }
 function selCalBarber(id){S.calBarberId=id;S.calSelDate=null;renderBarberCalSel();renderCalGrid();}
 function calMove(dir){
@@ -1154,16 +1546,16 @@ function renderCalGrid(){
   lbl.textContent=MONTHS_TR[S.calMonth]+' '+S.calYear;
   var html=DAYS_TR.map(function(d){return'<div class="cal-dow">'+d+'</div>';}).join('');
   var firstDay=new Date(S.calYear,S.calMonth-1,1).getDay();
-  var daysInM =new Date(S.calYear,S.calMonth,0).getDate();
-  var todayObj =new Date();todayObj.setHours(0,0,0,0);
+  var daysInM=new Date(S.calYear,S.calMonth,0).getDate();
+  var todayObj=new Date();todayObj.setHours(0,0,0,0);
   for(var i=0;i<firstDay;i++)html+='<div class="cal-day empty"></div>';
   for(var d2=1;d2<=daysInM;d2++){
     var ds=S.calYear+'-'+pad(S.calMonth)+'-'+pad(d2);
     var dObj=new Date(ds+'T00:00:00');
     var isPast=dObj<todayObj&&ds!==TODAY;
-    var isT=ds===TODAY,isSel=ds===S.calSelDate,isHol=isHoliday(ds);
-    var dayAppts=S.appointments.filter(function(a){return a.barberId===S.calBarberId&&a.date===ds&&a.status==='confirmed';});
-    var openSl=getOpenSlots(ds).length;
+    var isT=ds===TODAY,isSel=ds===S.calSelDate,isHol=!isBarberAvailableOnDate(S.calBarberId,ds)||S.holidays.includes(ds);
+    var dayAppts=S.appointments.filter(function(a){return a.barberId===S.calBarberId&&a.date===ds&&(a.status==='confirmed'||a.status==='pending');});
+    var openSl=getOpenSlotsForBarber(S.calBarberId,ds).length;
     var dotHtml='';
     if(!isHol&&!isPast&&openSl>0){
       var fill=dayAppts.length/openSl;
@@ -1181,13 +1573,15 @@ function renderCalDayDetail(){
   var el=document.getElementById('cal-day-detail');if(!el)return;
   if(!S.calSelDate){el.innerHTML='';return;}
   var ds=S.calSelDate;
-  var appts=S.appointments.filter(function(a){return a.barberId===S.calBarberId&&a.date===ds&&a.status==='confirmed';}).sort(function(a,b){return timeToMin(a.time)-timeToMin(b.time);});
-  var open=getOpenSlots(ds);
-  var itemsHtml=appts.length===0?'<div style="font-size:11px;color:var(--grey);padding:10px 0;text-align:center;">Bu gün randevu yok.</div>':appts.map(function(a){var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?',price:0};return'<div class="day-detail-item"><div class="day-detail-time">'+a.time+'</div><div><div class="day-detail-name">'+a.name+'</div><div class="day-detail-svc">'+sv.name+' · '+sv.price+'₺</div></div></div>';}).join('');
-  el.innerHTML='<div style="margin-bottom:8px;"><div class="section-label" style="margin-bottom:4px;">📅 '+formatDate(ds)+'</div><div style="font-size:10px;color:var(--grey);">'+appts.length+' randevu · '+(open.length-appts.length)+' boş slot</div></div>'+itemsHtml;
+  var appts=S.appointments.filter(function(a){return a.barberId===S.calBarberId&&a.date===ds&&(a.status==='confirmed'||a.status==='pending');}).sort(function(a,b){return timeToMin(a.time)-timeToMin(b.time);});
+  var open=getOpenSlotsForBarber(S.calBarberId,ds);
+  var busy=getBusySlotsForBarber(S.calBarberId,ds,null);
+  var busyCount=Object.keys(busy).length;
+  var itemsHtml=appts.length===0?'<div style="font-size:11px;color:var(--grey);padding:10px 0;text-align:center;">Bu gün randevu yok.</div>':appts.map(function(a){var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?',price:0,dur:30};var isPend=a.status==='pending';return'<div class="day-detail-item"><div class="day-detail-time">'+a.time+'</div><div style="flex:1;"><div class="day-detail-name">'+a.name+(isPend?' <span style="font-size:8px;color:var(--orange);background:rgba(224,144,64,.12);border:1px solid rgba(224,144,64,.25);border-radius:4px;padding:1px 5px;">BEKLYOR</span>':'')+'</div><div class="day-detail-svc">'+sv.name+' · '+sv.price+'₺ · '+sv.dur+' dk</div></div></div>';}).join('');
+  el.innerHTML='<div style="margin-bottom:8px;"><div class="section-label" style="margin-bottom:4px;">📅 '+formatDate(ds)+'</div><div style="font-size:10px;color:var(--grey);">'+appts.length+' randevu · '+(open.length-busyCount)+' boş slot</div></div>'+itemsHtml;
 }
 
-/* ── Çalışma Saatleri ── */
+/* ── ÇALIŞMA SAATLERİ ── */
 function renderHoursEditor(){
   var el=document.getElementById('hours-editor');if(!el)return;
   var dn=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
@@ -1204,10 +1598,10 @@ function saveHours(){
     if(s)S.workHours[dow].start=s.value;if(e)S.workHours[dow].end=e.value;
   });
   renderTimeGrid();renderCalendar();
-  toast('Çalışma Saatleri Kaydedildi','Randevu formuna yansıtıldı.','success');
+  toast('Çalışma Saatleri Kaydedildi','','success');
 }
 
-/* ── Tatiller ── */
+/* ── TATİL ── */
 function renderHolidayChips(){
   var el=document.getElementById('holiday-chips');if(!el)return;
   if(S.holidays.length===0){el.innerHTML='<div style="font-size:10px;color:var(--grey);margin-bottom:6px;">Henüz tatil eklenmedi.</div>';return;}
@@ -1226,57 +1620,97 @@ function removeHoliday(d){
   renderHolidayChips();renderCalendar();renderTimeGrid();toast('Tatil Kaldırıldı',formatDate(d),'info');
 }
 
-/* ── Hizmetler ── */
+/* ── HİZMETLER ── */
+function renderAdminCatFilter(){
+  var el=document.getElementById('admin-cat-filter');if(!el)return;
+  var cats=['Tümü'].concat(Object.keys(CAT_COLORS));
+  el.innerHTML=cats.map(function(c){
+    return'<div class="cat-btn'+(S.adminCatFilter===c?' active':'')+'" onclick="selAdminCat(\''+c+'\')">'+c+'</div>';
+  }).join('');
+}
+function selAdminCat(cat){S.adminCatFilter=cat;renderAdminCatFilter();renderServices();}
 function renderServices(){
   var el=document.getElementById('service-list');var lbl=document.getElementById('service-count-lbl');if(!el)return;
+  var svcs=S.services;
+  if(S.adminCatFilter&&S.adminCatFilter!=='Tümü')svcs=svcs.filter(function(s){return s.cat===S.adminCatFilter;});
   if(lbl)lbl.textContent=S.services.length+' Hizmet';
-  el.innerHTML=S.services.map(function(s){return'<div class="service-row"><div class="service-info"><div class="service-name">'+s.name+'</div><div class="service-detail">'+s.price+'₺ · '+s.dur+' dakika</div></div><div class="service-actions"><button class="edit-btn" onclick="editService('+s.id+')">✎</button><button class="del-btn" onclick="deleteService('+s.id+')">✕</button></div></div>';}).join('');
+  el.innerHTML=svcs.map(function(s){
+    var cc=CAT_COLORS[s.cat]||CAT_COLORS['Diğer'];
+    var catBadge='<span class="service-cat-badge" style="background:'+cc.bg+';border:1px solid '+cc.border+';color:'+cc.text+'">'+s.cat+'</span>';
+    return'<div class="service-row"><div class="service-info"><div class="service-name">'+s.name+'</div><div class="service-detail">'+s.price+'₺ · '+s.dur+' dakika</div>'+catBadge+'</div><div class="service-actions"><button class="edit-btn" onclick="editService('+s.id+')">✎</button><button class="del-btn" onclick="deleteService('+s.id+')">✕</button></div></div>';
+  }).join('');
   updateSvcDD();
 }
-function updateSvcDD(){var sel=document.getElementById('r-service');if(!sel)return;var cv=sel.value;sel.innerHTML=S.services.map(function(s){return'<option value="'+s.id+'">'+s.name+' · '+s.price+'₺ · '+s.dur+' dk</option>';}).join('');if(cv)sel.value=cv;}
+function updateSvcDD(){
+  var sel=document.getElementById('r-service');if(!sel)return;
+  var cv=sel.value;
+  var svcs=S.services;
+  if(S.selCatFilter&&S.selCatFilter!=='Tümü')svcs=svcs.filter(function(s){return s.cat===S.selCatFilter;});
+  sel.innerHTML=svcs.map(function(s){return'<option value="'+s.id+'">'+s.name+' · '+s.price+'₺ · '+s.dur+' dk</option>';}).join('');
+  if(cv)sel.value=cv;
+}
 function addService(){
-  var n=document.getElementById('new-svc-name').value.trim(),p=parseInt(document.getElementById('new-svc-price').value),d=parseInt(document.getElementById('new-svc-dur').value);
+  var n=document.getElementById('new-svc-name').value.trim();
+  var p=parseInt(document.getElementById('new-svc-price').value);
+  var d=parseInt(document.getElementById('new-svc-dur').value);
+  var cat=document.getElementById('new-svc-cat').value||'Diğer';
   if(!n||!p||!d){toast('Hata','Tüm alanları doldurunuz.','error');return;}
-  S.services.push({id:S.services.length?Math.max.apply(null,S.services.map(function(x){return x.id;}))+1:1,name:n,price:p,dur:d});
+  S.services.push({id:S.services.length?Math.max.apply(null,S.services.map(function(x){return x.id;}))+1:1,name:n,price:p,dur:d,cat:cat});
   document.getElementById('new-svc-name').value='';document.getElementById('new-svc-price').value='';document.getElementById('new-svc-dur').value='';
-  renderServices();toast('Hizmet Eklendi',n,'success');
+  renderServices();renderCatFilter();toast('Hizmet Eklendi',n,'success');
 }
 function editService(id){
   var s=S.services.find(function(x){return x.id===id;});if(!s)return;
-  showModal({title:'Hizmeti Düzenle',sub:'',body:'<div class="field" style="margin-bottom:8px;"><label>Hizmet Adı</label><input type="text" id="es-n" value="'+s.name+'" style="'+inlineStyle()+'"></div><div style="display:flex;gap:8px;"><div class="field" style="flex:1;"><label>Fiyat (₺)</label><input type="number" id="es-p" value="'+s.price+'" style="'+inlineStyle()+'"></div><div class="field" style="flex:1;"><label>Süre (dk)</label><input type="number" id="es-d" value="'+s.dur+'" style="'+inlineStyle()+'"></div></div>',confirmTxt:'Kaydet',onConfirm:'confirmEditSvc('+id+')'});
+  var catOpts=['Saç','Sakal','Cilt','Kombo','Diğer'].map(function(c){return'<option value="'+c+'"'+(c===s.cat?' selected':'')+'>'+c+'</option>';}).join('');
+  showModal({title:'Hizmeti Düzenle',sub:'',
+    body:'<div class="field" style="margin-bottom:8px;"><label>Hizmet Adı</label><input type="text" id="es-n" value="'+s.name+'" style="'+inlineStyle()+'"></div><div class="field" style="margin-bottom:8px;"><label>Kategori</label><div style="position:relative;"><select id="es-cat" style="'+inlineStyle('appearance:none;')+'">'+catOpts+'</select><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none;">▾</span></div></div><div style="display:flex;gap:8px;"><div class="field" style="flex:1;"><label>Fiyat (₺)</label><input type="number" id="es-p" value="'+s.price+'" style="'+inlineStyle()+'"></div><div class="field" style="flex:1;"><label>Süre (dk)</label><input type="number" id="es-d" value="'+s.dur+'" style="'+inlineStyle()+'"></div></div>',
+    confirmTxt:'Kaydet',onConfirm:'confirmEditSvc('+id+')'});
 }
 function confirmEditSvc(id){
   var s=S.services.find(function(x){return x.id===id;});
   var n=document.getElementById('es-n')&&document.getElementById('es-n').value.trim();
   var p=parseInt(document.getElementById('es-p')&&document.getElementById('es-p').value);
   var d=parseInt(document.getElementById('es-d')&&document.getElementById('es-d').value);
-  if(s&&n&&p&&d){s.name=n;s.price=p;s.dur=d;}
-  closeModalDirect();renderServices();toast('Hizmet Güncellendi',n,'success');
+  var cat=document.getElementById('es-cat')&&document.getElementById('es-cat').value;
+  if(s&&n&&p&&d){s.name=n;s.price=p;s.dur=d;s.cat=cat||s.cat;}
+  closeModalDirect();renderServices();renderCatFilter();toast('Hizmet Güncellendi',n,'success');
 }
 function deleteService(id){
   var s=S.services.find(function(x){return x.id===id;});if(!s)return;
-  showModal({title:'Hizmeti Sil',sub:s.name,body:'<div style="font-size:12px;color:var(--grey);line-height:1.7;">Kalıcı olarak silinecektir.</div>',confirmTxt:'Sil',confirmClass:'danger',onConfirm:'confirmDelSvc('+id+')'});
+  showModal({title:'Hizmeti Sil',sub:s.name,body:'<div style="font-size:12px;color:var(--grey);">Kalıcı olarak silinecektir.</div>',confirmTxt:'Sil',confirmClass:'danger',onConfirm:'confirmDelSvc('+id+')'});
 }
-function confirmDelSvc(id){S.services=S.services.filter(function(s){return s.id!==id;});closeModalDirect();renderServices();toast('Hizmet Silindi','','warn');}
+function confirmDelSvc(id){
+  S.services=S.services.filter(function(s){return s.id!==id;});
+  closeModalDirect();renderServices();renderCatFilter();toast('Hizmet Silindi','','warn');
+}
 
-/* ── Berberler ── */
+/* ── BERBERLER ── */
 function renderBarberManage(){
   var el=document.getElementById('barber-manage-list');var lbl=document.getElementById('barber-count-lbl');if(!el)return;
   if(lbl)lbl.textContent=S.barbers.length+' Berber';
   if(S.barbers.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">✂️</div><p>Kayıtlı berber yok.</p></div>';return;}
-  el.innerHTML=S.barbers.map(function(b){return'<div class="barber-manage-row"><div class="barber-avatar">'+b.initials+'</div><div class="barber-manage-info"><div class="barber-manage-name">'+b.name+'</div><div class="barber-manage-role">'+b.role+'</div></div><div style="display:flex;gap:5px;"><button class="icon-btn" onclick="editBarber('+b.id+')" style="color:var(--gold);border-color:rgba(201,168,76,.22);">✎</button><button class="icon-btn danger" onclick="deleteBarber('+b.id+')">✕</button></div></div>';}).join('');
+  el.innerHTML=S.barbers.map(function(b){
+    return'<div class="barber-manage-row"><div class="barber-avatar">'+b.initials+'</div>'
+      +'<div class="barber-manage-info"><div class="barber-manage-name">'+b.name+'</div><div class="barber-manage-role">'+b.role+'</div>'
+      +'<div style="font-size:9px;color:var(--grey);margin-top:2px;">'+(b.customHours&&b.customHours.enabled?'⚙️ Özel saatler aktif':'Genel saatler')+'</div></div>'
+      +'<div style="display:flex;gap:5px;"><button class="icon-btn" onclick="editBarberHours('+b.id+')" style="color:var(--blue);border-color:rgba(74,158,224,.22);" title="Özel saatler">🕐</button><button class="icon-btn" onclick="editBarber('+b.id+')" style="color:var(--gold);border-color:rgba(201,168,76,.22);">✎</button><button class="icon-btn danger" onclick="deleteBarber('+b.id+')">✕</button></div>'
+      +'</div>';
+  }).join('');
 }
 function addBarber(){
-  var n=document.getElementById('new-barber-name').value.trim(),r=document.getElementById('new-barber-role').value.trim()||'Berber';
+  var n=document.getElementById('new-barber-name').value.trim();var r=document.getElementById('new-barber-role').value.trim()||'Berber';
   if(!n){toast('Hata','Berber adını giriniz.','error');return;}
   var ini=n.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
-  S.barbers.push({id:S.barbers.length?Math.max.apply(null,S.barbers.map(function(x){return x.id;}))+1:1,name:n,role:r,initials:ini});
+  var defHours={enabled:false,hours:{0:{open:false,start:'09:00',end:'19:00'},1:{open:true,start:'09:00',end:'19:00'},2:{open:true,start:'09:00',end:'19:00'},3:{open:true,start:'09:00',end:'19:00'},4:{open:true,start:'09:00',end:'19:00'},5:{open:true,start:'09:00',end:'19:00'},6:{open:true,start:'10:00',end:'17:00'}}};
+  S.barbers.push({id:S.barbers.length?Math.max.apply(null,S.barbers.map(function(x){return x.id;}))+1:1,name:n,role:r,initials:ini,customHours:defHours});
   document.getElementById('new-barber-name').value='';document.getElementById('new-barber-role').value='';
   renderBarberManage();renderBarberBtns();renderAdminStats();renderBarberCalSel();toast('Berber Eklendi',n,'success');
 }
 function editBarber(id){
   var b=S.barbers.find(function(x){return x.id===id;});if(!b)return;
-  showModal({title:'Berber Düzenle',sub:b.name,body:'<div class="field" style="margin-bottom:8px;"><label>Ad Soyad</label><input type="text" id="eb-n" value="'+b.name+'" style="'+inlineStyle()+'"></div><div class="field"><label>Unvan</label><input type="text" id="eb-r" value="'+b.role+'" style="'+inlineStyle()+'"></div>',confirmTxt:'Kaydet',onConfirm:'confirmEditBarber('+id+')'});
+  showModal({title:'Berber Düzenle',sub:b.name,
+    body:'<div class="field" style="margin-bottom:8px;"><label>Ad Soyad</label><input type="text" id="eb-n" value="'+b.name+'" style="'+inlineStyle()+'"></div><div class="field"><label>Unvan</label><input type="text" id="eb-r" value="'+b.role+'" style="'+inlineStyle()+'"></div>',
+    confirmTxt:'Kaydet',onConfirm:'confirmEditBarber('+id+')'});
 }
 function confirmEditBarber(id){
   var b=S.barbers.find(function(x){return x.id===id;});
@@ -1296,7 +1730,61 @@ function confirmDelBarber(id){
   closeModalDirect();renderBarberManage();renderBarberBtns();renderAdminStats();renderBarberCalSel();toast('Berber Silindi','','warn');
 }
 
-/* ── Müşteriler ── */
+/* BERBER ÖZEL ÇALIŞMA SAATLERİ */
+function editBarberHours(id){
+  var b=S.barbers.find(function(x){return x.id===id;});if(!b)return;
+  if(!b.customHours)b.customHours={enabled:false,hours:JSON.parse(JSON.stringify(S.workHours))};
+  var dn=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+  var toggleRow='<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;background:var(--dark3);border-radius:9px;padding:10px 12px;">'
+    +'<div class="hours-toggle '+(b.customHours.enabled?'on':'off')+'" id="bh-toggle" onclick="toggleBHours()" style="flex-shrink:0;"><div class="hours-toggle-knob"></div></div>'
+    +'<div style="font-size:11px;color:var(--white2);">Berber özel saatleri kullan</div></div>';
+  var rows=Object.keys(b.customHours.hours).map(function(dow){
+    var wh=b.customHours.hours[dow];
+    var right=wh.open?'<div class="hours-time-inputs"><input class="hours-time-input" type="time" id="bwhs'+dow+'" value="'+wh.start+'"><span class="hours-sep">–</span><input class="hours-time-input" type="time" id="bwhe'+dow+'" value="'+wh.end+'"></div>':'<div class="hours-closed-lbl">KAPALI</div>';
+    return'<div class="hours-row"><div class="hours-day-lbl">'+dn[dow]+'</div><div class="hours-toggle '+(wh.open?'on':'off')+'" id="bht'+dow+'" onclick="toggleBDay('+dow+')" style="flex-shrink:0;"><div class="hours-toggle-knob"></div></div>'+right+'</div>';
+  }).join('');
+  showModal({title:'Özel Çalışma Saatleri',sub:b.name,
+    body:toggleRow+rows,cancelTxt:'İptal',confirmTxt:'Kaydet',onConfirm:'saveBHours('+id+')'});
+  window._editBarberId=id;
+}
+var _bhEnabled=null;
+function toggleBHours(){
+  var t=document.getElementById('bh-toggle');if(!t)return;
+  var on=t.classList.contains('on');
+  t.classList.toggle('on',!on);t.classList.toggle('off',on);
+  _bhEnabled=!on;
+}
+function toggleBDay(dow){
+  var t=document.getElementById('bht'+dow);if(!t)return;
+  var on=t.classList.contains('on');
+  t.classList.toggle('on',!on);t.classList.toggle('off',on);
+  var row=t.parentElement;
+  var inp=row.querySelector('.hours-time-inputs');var closed=row.querySelector('.hours-closed-lbl');
+  if(!on){
+    if(!inp){var d=document.createElement('div');d.className='hours-time-inputs';d.innerHTML='<input class="hours-time-input" type="time" id="bwhs'+dow+'" value="09:00"><span class="hours-sep">–</span><input class="hours-time-input" type="time" id="bwhe'+dow+'" value="19:00">';row.appendChild(d);}
+    if(closed)closed.remove();
+  }else{
+    if(inp)inp.remove();
+    if(!closed){var cl=document.createElement('div');cl.className='hours-closed-lbl';cl.textContent='KAPALI';row.appendChild(cl);}
+  }
+}
+function saveBHours(id){
+  var b=S.barbers.find(function(x){return x.id===id;});if(!b)return;
+  var toggle=document.getElementById('bh-toggle');
+  if(toggle)b.customHours.enabled=toggle.classList.contains('on');
+  if(_bhEnabled!==null)b.customHours.enabled=_bhEnabled;
+  _bhEnabled=null;
+  Object.keys(b.customHours.hours).forEach(function(dow){
+    var t=document.getElementById('bht'+dow);
+    if(t)b.customHours.hours[dow].open=t.classList.contains('on');
+    var s=document.getElementById('bwhs'+dow);var e=document.getElementById('bwhe'+dow);
+    if(s)b.customHours.hours[dow].start=s.value;if(e)b.customHours.hours[dow].end=e.value;
+  });
+  closeModalDirect();renderBarberManage();renderBarberBtns();renderCalendar();renderTimeGrid();
+  toast('Saatler Kaydedildi',b.name,'success');
+}
+
+/* ── MÜŞTERİLER ── */
 function renderCustomers(filter){
   filter=filter||'';
   var el=document.getElementById('customer-list');var lbl=document.getElementById('customer-count-lbl');if(!el)return;
@@ -1307,15 +1795,17 @@ function renderCustomers(filter){
   el.innerHTML=list.map(function(c){
     var cnt=S.appointments.filter(function(a){return a.userId===c.id;}).length;
     var ini=c.name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
-    return'<div class="customer-row"><div class="customer-avatar">'+ini+'</div><div class="customer-info"><div class="customer-name">'+c.name+(c.vip?' <span class="badge-pill">VIP</span>':'')+'</div><div class="customer-meta">'+c.phone+' · '+cnt+' randevu</div></div><div class="customer-actions"><button class="icon-btn info" onclick="viewCustAppts(\''+c.id+'\')" title="Randevuları Gör">📋</button><button class="icon-btn" onclick="toggleVip(\''+c.id+'\')" style="'+(c.vip?'color:var(--gold);border-color:rgba(201,168,76,.3);':'')+'">★</button><button class="icon-btn danger" onclick="deleteCust(\''+c.id+'\')">✕</button></div></div>';
+    var totalSpend=S.appointments.filter(function(a){return a.userId===c.id&&(a.status==='confirmed'||a.status==='past');}).reduce(function(s,a){var sv=S.services.find(function(x){return x.id===a.serviceId;});return s+(sv?sv.price:0);},0);
+    var ratings=S.appointments.filter(function(a){return a.userId===c.id&&a.rating;});
+    var avgRating=ratings.length?Math.round(ratings.reduce(function(s,a){return s+a.rating;},0)/ratings.length):0;
+    return'<div class="customer-row"><div class="customer-avatar">'+ini+'</div><div class="customer-info"><div class="customer-name">'+c.name+(c.vip?' <span class="badge-pill">VIP</span>':'')+'</div><div class="customer-meta">'+c.phone+' · '+cnt+' randevu · '+totalSpend.toLocaleString('tr-TR')+'₺'+(avgRating?' · '+'★'.repeat(avgRating):'')+'</div></div><div class="customer-actions"><button class="icon-btn info" onclick="viewCustAppts(\''+c.id+'\')" title="Randevular">📋</button><button class="icon-btn" onclick="toggleVip(\''+c.id+'\')" style="'+(c.vip?'color:var(--gold);border-color:rgba(201,168,76,.3);':'')+'">★</button><button class="icon-btn danger" onclick="deleteCust(\''+c.id+'\')">✕</button></div></div>';
   }).join('');
 }
 function viewCustAppts(uid){
   var c=S.customers.find(function(x){return x.id===uid;});if(!c)return;
   var appts=S.appointments.filter(function(a){return a.userId===uid;});
-  var sm={confirmed:'#4CAF7A',cancelled:'#E05555',past:'#888'};
-  var st={confirmed:'Onaylı',cancelled:'İptal',past:'Tamamlandı'};
-  var html=appts.length===0?'<div style="font-size:11px;color:var(--grey);padding:10px 0;">Randevu bulunamadı.</div>':appts.map(function(a){var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?',price:0};var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:'?'};return'<div style="padding:9px 0;border-bottom:1px solid #2a2a2a;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:12px;font-weight:700;color:var(--white2);">'+sv.name+'</span><span style="font-size:9px;color:'+(sm[a.status]||'#888')+';">'+(st[a.status]||a.status)+'</span></div><div style="font-size:10px;color:var(--grey);">'+formatDate(a.date)+' · '+a.time+' · '+b.name+' · '+sv.price+'₺</div></div>';}).join('');
+  var sm={confirmed:'#4CAF7A',pending:'#E09040',cancelled:'#E05555',past:'#888'};var st={confirmed:'Onaylı',pending:'Bekliyor',cancelled:'İptal',past:'Tamamlandı'};
+  var html=appts.length===0?'<div style="font-size:11px;color:var(--grey);padding:10px 0;">Randevu bulunamadı.</div>':appts.map(function(a){var sv=S.services.find(function(s){return s.id===a.serviceId;})||{name:'?',price:0};var b=S.barbers.find(function(x){return x.id===a.barberId;})||{name:'?'};var starLine=a.rating?'<div style="color:var(--gold);font-size:10px;margin-top:2px;">'+'★'.repeat(a.rating)+'</div>':'';return'<div style="padding:9px 0;border-bottom:1px solid #2a2a2a;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;"><span style="font-size:12px;font-weight:700;color:var(--white2);">'+sv.name+'</span><span style="font-size:9px;color:'+(sm[a.status]||'#888')+';">'+(st[a.status]||a.status)+'</span></div><div style="font-size:10px;color:var(--grey);">'+formatDate(a.date)+' · '+a.time+' · '+b.name+' · '+sv.price+'₺</div>'+starLine+'</div>';}).join('');
   showModal({title:c.name+' Randevuları',sub:c.phone+' · '+appts.length+' randevu',body:'<div style="max-height:220px;overflow-y:auto;">'+html+'</div>',cancelTxt:'',confirmTxt:'Kapat',onConfirm:'closeModalDirect()'});
 }
 function toggleVip(uid){var c=S.customers.find(function(x){return x.id===uid;});if(c)c.vip=!c.vip;renderCustomers();toast(c.vip?'VIP Eklendi':'VIP Kaldırıldı',c.name,'info');}
@@ -1326,20 +1816,96 @@ function deleteCust(uid){
 function confirmDelCust(uid){
   S.customers=S.customers.filter(function(c){return c.id!==uid;});
   closeModalDirect();renderCustomers();renderAdminStats();
-  if(S.loggedInUser&&S.loggedInUser.id===uid)musteriCikis();
+  if(S.loggedInUser&&S.loggedInUser.id===uid)confirmMusteriCikis();
   toast('Müşteri Silindi','','warn');
 }
 
-/* ── Tab Yönetimi ── */
+/* ── RAPOR ── */
+function renderReports(){
+  renderReportStats();renderDailyChart();renderServiceChart();renderBarberChart();renderHoursChart();renderReviewsReport();
+}
+function renderReportStats(){
+  var el=document.getElementById('report-stats');if(!el)return;
+  var allPaid=S.appointments.filter(function(a){return a.status==='confirmed'||a.status==='past';});
+  var totalRev=allPaid.reduce(function(s,a){var sv=S.services.find(function(x){return x.id===a.serviceId;});return s+(sv?sv.price:0);},0);
+  var monthStart=TODAY.substring(0,7)+'-01';
+  var monthRev=allPaid.filter(function(a){return a.date>=monthStart;}).reduce(function(s,a){var sv=S.services.find(function(x){return x.id===a.serviceId;});return s+(sv?sv.price:0);},0);
+  var ratings=S.appointments.filter(function(a){return a.rating;});
+  var avgRat=ratings.length?( ratings.reduce(function(s,a){return s+a.rating;},0)/ratings.length).toFixed(1):'-';
+  el.innerHTML='<div class="stat-box"><div class="stat-num" style="font-size:'+(totalRev>99999?'14px':'20px')+'">'+totalRev.toLocaleString('tr-TR')+'₺</div><div class="stat-lbl">Toplam Ciro</div></div>'
+    +'<div class="stat-box"><div class="stat-num" style="font-size:'+(monthRev>99999?'14px':'20px')+'">'+monthRev.toLocaleString('tr-TR')+'₺</div><div class="stat-lbl">Bu Ay</div></div>'
+    +'<div class="stat-box"><div class="stat-num">'+allPaid.length+'</div><div class="stat-lbl">Toplam Randevu</div></div>'
+    +'<div class="stat-box"><div class="stat-num" style="color:var(--gold-light);">'+avgRat+'</div><div class="stat-lbl">Ort. Puan</div></div>';
+}
+function renderDailyChart(){
+  var el=document.getElementById('chart-daily');if(!el)return;
+  var days=[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);days.push(d.toISOString().split('T')[0]);}
+  var max=1;
+  var counts=days.map(function(d){var c=S.appointments.filter(function(a){return a.date===d&&(a.status==='confirmed'||a.status==='past'||a.status==='pending');}).length;if(c>max)max=c;return c;});
+  el.innerHTML=days.map(function(d,i){
+    var lbl=new Date(d+'T00:00:00');var dayLbl=DAYS_TR[lbl.getDay()];
+    var pct=max>0?Math.round(counts[i]/max*100):0;
+    return'<div class="chart-bar-row"><div class="chart-bar-lbl">'+dayLbl+'</div><div class="chart-bar-outer"><div class="chart-bar-inner" style="width:'+pct+'%"><span class="chart-bar-val">'+( counts[i]||'')+'</span></div></div><div class="chart-bar-val2">'+counts[i]+'</div></div>';
+  }).join('');
+}
+function renderServiceChart(){
+  var el=document.getElementById('chart-services');if(!el)return;
+  var counts={};S.services.forEach(function(s){counts[s.id]=0;});
+  S.appointments.filter(function(a){return a.status==='confirmed'||a.status==='past';}).forEach(function(a){if(counts[a.serviceId]!==undefined)counts[a.serviceId]++;});
+  var sorted=S.services.slice().sort(function(a,b){return counts[b.id]-counts[a.id];});
+  var max=Math.max.apply(null,sorted.map(function(s){return counts[s.id];}));if(!max)max=1;
+  el.innerHTML=sorted.map(function(s){
+    var pct=Math.round(counts[s.id]/max*100);
+    return'<div class="chart-bar-row"><div class="chart-bar-lbl" style="width:60px;font-size:8px;color:var(--grey);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;" title="'+s.name+'">'+s.name.substring(0,8)+'</div><div class="chart-bar-outer"><div class="chart-bar-inner" style="width:'+pct+'%"><span class="chart-bar-val">'+( counts[s.id]||'')+'</span></div></div><div class="chart-bar-val2">'+counts[s.id]+'</div></div>';
+  }).join('');
+}
+function renderBarberChart(){
+  var el=document.getElementById('chart-barbers');if(!el)return;
+  var max=1;
+  var data=S.barbers.map(function(b){
+    var c=S.appointments.filter(function(a){return a.barberId===b.id&&(a.status==='confirmed'||a.status==='past');}).length;
+    var rev=S.appointments.filter(function(a){return a.barberId===b.id&&(a.status==='confirmed'||a.status==='past');}).reduce(function(s,a){var sv=S.services.find(function(x){return x.id===a.serviceId;});return s+(sv?sv.price:0);},0);
+    if(c>max)max=c;return{b:b,c:c,rev:rev};
+  });
+  el.innerHTML=data.map(function(d){
+    var pct=Math.round(d.c/max*100);
+    return'<div class="chart-bar-row"><div class="chart-bar-lbl" style="width:26px;font-size:8px;text-align:left;">'+d.b.initials+'</div><div class="chart-bar-outer"><div class="chart-bar-inner" style="width:'+pct+'%"><span class="chart-bar-val">'+( d.c||'')+'</span></div></div><div class="chart-bar-val2" style="width:52px;font-size:9px;">'+d.rev.toLocaleString('tr-TR')+'₺</div></div>';
+  }).join('');
+}
+function renderHoursChart(){
+  var el=document.getElementById('chart-hours');if(!el)return;
+  var hCounts={};ALL_SLOTS.forEach(function(t){hCounts[t]=0;});
+  S.appointments.filter(function(a){return a.status==='confirmed'||a.status==='past';}).forEach(function(a){if(hCounts[a.time]!==undefined)hCounts[a.time]++;});
+  var vals=ALL_SLOTS.map(function(t){return hCounts[t];});
+  var max=Math.max.apply(null,vals);if(!max)max=1;
+  el.innerHTML=ALL_SLOTS.map(function(t,i){
+    var pct=Math.round(vals[i]/max*100);
+    return'<div class="chart-bar-row"><div class="chart-bar-lbl" style="font-size:9px;">'+t+'</div><div class="chart-bar-outer"><div class="chart-bar-inner" style="width:'+pct+'%"><span class="chart-bar-val">'+( vals[i]||'')+'</span></div></div><div class="chart-bar-val2">'+vals[i]+'</div></div>';
+  }).join('');
+}
+function renderReviewsReport(){
+  var el=document.getElementById('report-reviews');if(!el)return;
+  var rated=S.appointments.filter(function(a){return a.rating;});
+  if(rated.length===0){el.innerHTML='<div class="empty-state"><div class="empty-icon">⭐</div><p>Henüz değerlendirme yok.</p></div>';return;}
+  var avg=(rated.reduce(function(s,a){return s+a.rating;},0)/rated.length).toFixed(1);
+  var avgSection='<div class="avg-rating"><div class="avg-num">'+avg+'</div><div><div class="avg-stars">'+'★'.repeat(Math.round(avg))+'☆'.repeat(5-Math.round(avg))+'</div><div class="avg-count">'+rated.length+' değerlendirme</div></div></div>';
+  var reviews=rated.slice().reverse().map(function(a){
+    var c=S.customers.find(function(x){return x.id===a.userId;})||{name:a.name||'Misafir'};
+    var sv=S.services.find(function(x){return x.id===a.serviceId;})||{name:'?'};
+    return'<div class="review-card"><div class="review-stars">'+'★'.repeat(a.rating)+'☆'.repeat(5-a.rating)+'</div>'+(a.review?'<div class="review-text">'+a.review+'</div>':'')+'<div class="review-meta">'+c.name+' · '+sv.name+' · '+formatDate(a.date)+'</div></div>';
+  }).join('');
+  el.innerHTML=avgSection+reviews;
+}
+
+/* ── TAB YÖNETİMİ ── */
 function switchMusteriTab(name,btn){
   ['giris','kayit','sifre'].forEach(function(t){var el=document.getElementById('mtab-'+t);if(el)el.style.display=t===name?'block':'none';});
-  if(name==='sifre'){sifreTemizle();}
+  if(name==='sifre')sifreTemizle();
   document.querySelectorAll('#musteri-login-view .tab-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
 }
 function switchMusteriTabByName(name){var btn=document.getElementById('mtab-'+name+'-btn');switchMusteriTab(name,btn);}
 
-/* ── Şifre Sıfırlama ── */
 var _sifreUser=null;
 function sifreTemizle(){
   _sifreUser=null;
@@ -1351,8 +1917,8 @@ function sifreTemizle(){
 }
 function sifreAdim1(){
   var id=document.getElementById('reset-id').value.trim();
-  if(!id){toast('Hata','Telefon veya e-posta giriniz.','error');return;}
-  var user=S.customers.find(function(c){return c.phone===id;});
+  if(!id){toast('Hata','Telefon giriniz.','error');return;}
+  var user=S.customers.find(function(c){return c.phone.replace(/\D/g,'')=== id.replace(/\D/g,'');});
   if(!user){toast('Bulunamadı','Bu bilgilerle kayıtlı hesap yok.','error');return;}
   _sifreUser=user;
   var ini=user.name.split(' ').map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();
@@ -1361,35 +1927,31 @@ function sifreAdim1(){
   document.getElementById('sifre-contact').textContent=user.phone;
   document.getElementById('sifre-adim1').style.display='none';
   document.getElementById('sifre-adim2').style.display='block';
-  document.getElementById('reset-pass1').value='';
-  document.getElementById('reset-pass2').value='';
+  document.getElementById('reset-pass1').value='';document.getElementById('reset-pass2').value='';
 }
 function sifreAdim2(){
-  if(!_sifreUser){toast('Hata','Oturum zaman aşımı, lütfen tekrar deneyin.','error');return;}
-  var p1=document.getElementById('reset-pass1').value;
-  var p2=document.getElementById('reset-pass2').value;
+  if(!_sifreUser){toast('Hata','Tekrar deneyin.','error');return;}
+  var p1=document.getElementById('reset-pass1').value;var p2=document.getElementById('reset-pass2').value;
   if(!p1){toast('Hata','Yeni şifre giriniz.','error');return;}
-  if(p1.length<6){toast('Hata','Şifre en az 6 karakter olmalı.','error');return;}
+  if(p1.length<6){toast('Hata','Şifre en az 6 karakter.','error');return;}
   if(p1!==p2){toast('Hata','Şifreler uyuşmuyor.','error');return;}
-  _sifreUser.pass=p1;
-  toast('Şifre Güncellendi!','Yeni şifrenizle giriş yapabilirsiniz.','success',4000);
-  sifreTemizle();
-  switchMusteriTabByName('giris');
+  _sifreUser.pass=p1;toast('Şifre Güncellendi!','Yeni şifrenizle giriş yapabilirsiniz.','success',4000);
+  sifreTemizle();switchMusteriTabByName('giris');
 }
 function sifreGeriAl(){
   document.getElementById('sifre-adim1').style.display='block';
-  document.getElementById('sifre-adim2').style.display='none';
-  _sifreUser=null;
+  document.getElementById('sifre-adim2').style.display='none';_sifreUser=null;
 }
 function switchAdminTab(name,btn){
-  ['randevular','takvim','hizmetler','berberler','ayarlar','musteriler'].forEach(function(t){var el=document.getElementById('atab-'+t);if(el)el.style.display=t===name?'block':'none';});
+  ['randevular','takvim','hizmetler','berberler','raporlar','ayarlar','musteriler'].forEach(function(t){var el=document.getElementById('atab-'+t);if(el)el.style.display=t===name?'block':'none';});
   document.querySelectorAll('#admin-panel-view .tabs .tab-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
   if(name==='takvim')renderCalendar();
   if(name==='ayarlar'){renderHoursEditor();renderHolidayChips();renderAdminPhone();}
+  if(name==='raporlar')renderReports();
 }
 
-/* ── localStorage Helpers ── */
+/* ── LOCALSTORAGE ── */
 function lsSave(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
 function lsLoad(key){try{var v=localStorage.getItem(key);return v!==null?JSON.parse(v):null;}catch(e){return null;}}
 function lsRemove(key){try{localStorage.removeItem(key);}catch(e){}}
@@ -1399,6 +1961,10 @@ function lsSaveAll(){
 function lsLoadAll(){
   var c=lsLoad('at_customers');if(c&&c.length)S.customers=c;
   var a=lsLoad('at_appointments');if(a&&a.length)S.appointments=a;
+  // Eski randevulara cat ekle
+  S.appointments.forEach(function(a){if(!a.remOpt)a.remOpt='none';});
+  // Eski servislere cat ekle
+  S.services.forEach(function(s){if(!s.cat)s.cat='Diğer';});
 }
 
 /* ── INIT ── */
@@ -1406,13 +1972,10 @@ lsLoadAll();
 cleanPastAppts();
 initRandevuPanel();
 
-// Müşteri oturumu geri yükle
 (function(){
   var uid=lsLoad('musteri_uid');
   if(uid){var u=S.customers.find(function(c){return c.id===uid;});if(u){S.loggedInUser=u;fillRandevuForm();}}
 })();
-
-// Admin oturumu geri yükle
 (function(){
   if(lsLoad('admin_session')==='1'){
     document.getElementById('admin-login-view').style.display='none';
@@ -1420,6 +1983,9 @@ initRandevuPanel();
     renderAdminAll();
   }
 })();
+
+// Hatırlatıcı kontrolü her dakika
+setInterval(function(){if(S.loggedInUser)checkReminders();},60000);
 </script>
 
 </body>
