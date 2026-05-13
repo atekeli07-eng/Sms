@@ -2012,23 +2012,15 @@ function switchAdminTab(name,btn){
    kendi Firebase bilgilerinizle doldurun.
    (KURULUM REHBERİ dosyasına bakın)
 ══════════════════════════════════════════════ */
-var FB_CONFIG = // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCbEd2J7mvv51N_dbNKOzrrGdHTu_ISJ84",
-  authDomain: "ahmet-tekeli-berber.firebaseapp.com",
-  projectId: "ahmet-tekeli-berber",
-  storageBucket: "ahmet-tekeli-berber.firebasestorage.app",
+var FB_CONFIG = {
+  apiKey:            "AIzaSyCbEd2J7mvv51N_dbNKOzrrGdHTu_ISJ84",
+  authDomain:        "ahmet-tekeli-berber.firebaseapp.com",
+  databaseURL:       "https://ahmet-tekeli-berber-default-rtdb.firebaseio.com",
+  projectId:         "ahmet-tekeli-berber",
+  storageBucket:     "ahmet-tekeli-berber.firebasestorage.app",
   messagingSenderId: "89285289144",
-  appId: "1:89285289144:web:ad1ad1b57f301d700d004d"
+  appId:             "1:89285289144:web:ad1ad1b57f301d700d004d"
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 /* ── LocalStorage yardımcılar (oturum için hâlâ kullanılıyor) ── */
 function lsSave(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){}}
